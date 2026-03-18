@@ -490,9 +490,10 @@ export const personalities: Personality[] = [
 import { additionalPersonalities } from './personalities-additional';
 import { additionalPersonalitiesPart2 } from './personalities-additional-2';
 import { additionalPersonalitiesPart3 } from './personalities-additional-3';
+import { additionalPersonalitiesPart4 } from './personalities-additional-4';
 
 // 合并基础数据和额外数据
-export const allPersonalities: Personality[] = [...personalities, ...additionalPersonalities, ...additionalPersonalitiesPart2, ...additionalPersonalitiesPart3];
+export const allPersonalities: Personality[] = [...personalities, ...additionalPersonalities, ...additionalPersonalitiesPart2, ...additionalPersonalitiesPart3, ...additionalPersonalitiesPart4];
 
 export const getPersonalityByType = (type: string): Personality | undefined => {
   return allPersonalities.find(p => p.type === type.toUpperCase());

@@ -9,7 +9,16 @@ export function Hero() {
 
   const scrollToContent = () => {
     const element = document.getElementById('problem-radar');
-    element?.scrollIntoView({ behavior: 'smooth' });
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+  
+  const scrollToAction = () => {
+    const element = document.getElementById('daily-card');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -93,10 +102,10 @@ export function Hero() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => setIsTestOpen(true)}
+              onClick={scrollToAction}
               className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
             >
-              测测你的 MBTI
+              今日行动
             </Button>
           </motion.div>
         </div>

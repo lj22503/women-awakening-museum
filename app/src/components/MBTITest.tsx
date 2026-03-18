@@ -10,6 +10,13 @@ interface MBTITestProps {
   onComplete?: (type: string) => void;
 }
 
+/**
+ * MBTI 测试组件
+ * 修复记录 (2026-03-18):
+ * - 优化手机端交互体验
+ * - 添加滑动切换类型功能
+ * - 显示完整人物列表
+ */
 export function MBTITest({ isOpen, onClose, onComplete }: MBTITestProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
