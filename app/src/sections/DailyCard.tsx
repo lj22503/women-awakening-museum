@@ -98,7 +98,15 @@ export function DailyCard() {
   const [currentCard, setCurrentCard] = useState<DailyCard | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [hasCheckedInToday, setHasCheckedInToday] = useState(false);
+
+  // 打卡处理函数
+  const handleCheckIn = () => {
+    const today = new Date().toDateString();
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('daily-checkin', today);
+      alert('✅ 今日已打卡！坚持下去，你会看到改变 🌟');
+    }
+  };
 
   // 初始化今日卡片
   useEffect(() => {
