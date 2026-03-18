@@ -1,12 +1,20 @@
-import { useState } from 'react'; // 修复：移除未使用的 useEffect (TS6133)
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, Heart, Sparkles } from 'lucide-react'; // Sparkles 在第 26 行使用
+import { Menu, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+/**
+ * 导航组件
+ * 
+ * 修复记录 (2026-03-18):
+ * - 移除搜索按钮（功能未实现）
+ * - 移除收藏按钮（功能未实现）
+ * - 更新导航项名称：探索→问题，测试→榜样
+ */
 const navItems = [
-  { name: '探索', href: '#problem-radar' },
+  { name: '问题', href: '#problem-radar' },
+  { name: '榜样', href: '#mbti-gallery' },
   { name: '展厅', href: '#exhibition-halls' },
-  { name: '测试', href: '#mbti-gallery' },
   { name: '今日', href: '#daily-card' },
 ];
 
@@ -41,17 +49,6 @@ export function Navigation() {
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-champagne group-hover:w-full transition-all duration-300" />
                 </a>
               ))}
-              <div className="flex items-center gap-4">
-                <button className="p-2 text-white/70 hover:text-white">
-                  <Search className="w-5 h-5" />
-                </button>
-                <button className="relative p-2 text-white/70 hover:text-white">
-                  <Heart className="w-5 h-5" />
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-burgundy text-white text-xs rounded-full flex items-center justify-center">
-                    3
-                  </span>
-                </button>
-              </div>
             </div>
 
             {/* Mobile Menu Button */}
