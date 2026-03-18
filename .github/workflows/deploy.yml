@@ -30,9 +30,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: './app/package-lock.json'
 
       # ========== 自动修复步骤 ==========
       - name: Auto-fix common issues
+        working-directory: ./app
         run: |
           echo "🔧 自动修复 1: 同步 package-lock.json"
           npm install 2>&1 || echo "⚠️ npm install 失败，继续尝试..."
@@ -49,12 +51,15 @@ jobs:
           echo "✅ 自动修复完成"
 
       - name: Install dependencies
+        working-directory: ./app
         run: npm install
 
       - name: Build
+        working-directory: ./app
         run: npm run build || (echo "⚠️ 构建失败，尝试强制构建" && npm run build --force)
 
       - name: Verify build output
+        working-directory: ./app
         run: |
           echo "📁 检查构建输出..."
           ls -la dist/
