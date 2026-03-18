@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { personalities } from '@/data/personalities';
+import { allPersonalities } from '@/data/personalities';
 import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb } from 'lucide-react';
 
 // MBTI类型颜色映射
@@ -51,7 +51,7 @@ const getDefaultType = (): string => {
 
 export function MBTIGallery() {
   const [activeType, setActiveType] = useState(0);
-  const [selectedWoman, setSelectedWoman] = useState<typeof personalities[0]['women'][0] | null>(null);
+  const [selectedWoman, setSelectedWoman] = useState<typeof allPersonalities[0]['women'][0] | null>(null);
   const [activeWomanIndex, setActiveWomanIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const womanScrollRef = useRef<HTMLDivElement>(null);
@@ -59,7 +59,7 @@ export function MBTIGallery() {
   // 初始化定位到用户测试的类型
   useEffect(() => {
     const defaultType = getDefaultType();
-    const index = personalities.findIndex(p => p.type === defaultType);
+    const index = allPersonalities.findIndex(p => p.type === defaultType);
     if (index >= 0) {
       setActiveType(index);
     }
@@ -79,7 +79,7 @@ export function MBTIGallery() {
 
   // 切换人物
   const changeWoman = (direction: 'prev' | 'next') => {
-    const currentPersonality = personalities[activeType];
+    const currentPersonality = allPersonalities[activeType];
     const newIndex = direction === 'next'
       ? (activeWomanIndex + 1) % currentPersonality.women.length
       : (activeWomanIndex - 1 + currentPersonality.women.length) % currentPersonality.women.length;
@@ -93,7 +93,7 @@ export function MBTIGallery() {
     }
   };
 
-  const currentPersonality = personalities[activeType];
+  const currentPersonality = allPersonalities[activeType];
   const color = mbtiColors[currentPersonality.type] || '#242422';
 
   return (
@@ -108,7 +108,7 @@ export function MBTIGallery() {
           </div>
 
           <div className="flex flex-col gap-2 flex-1">
-            {personalities.map((p, index) => {
+            {allPersonalities.map((p, index) => {
               const isActive = index === activeType;
               const pColor = mbtiColors[p.type];
               return (

@@ -102,6 +102,13 @@ export function Hero() {
             </Button>
             <Button
               variant="outline"
+              onClick={() => setIsTestOpen(true)}
+              className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
+            >
+              测测你的 MBTI
+            </Button>
+            <Button
+              variant="outline"
               onClick={scrollToAction}
               className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
             >
