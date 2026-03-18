@@ -486,6 +486,17 @@ export const personalities: Personality[] = [
   }
 ];
 
+// 导入额外的人物数据
+import { additionalPersonalities } from './personalities-additional';
+
+// 合并基础数据和额外数据
+export const allPersonalities: Personality[] = [...personalities, ...additionalPersonalities];
+
 export const getPersonalityByType = (type: string): Personality | undefined => {
-  return personalities.find(p => p.type === type.toUpperCase());
+  return allPersonalities.find(p => p.type === type.toUpperCase());
+};
+
+// 导出所有女性榜样（用于搜索等）
+export const getAllWomen = () => {
+  return allPersonalities.flatMap(p => p.women);
 };
