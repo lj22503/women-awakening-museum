@@ -98,6 +98,7 @@ export function DailyCard() {
   const [currentCard, setCurrentCard] = useState<DailyCard | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hasCheckedInToday, setHasCheckedInToday] = useState(false);
 
   // 初始化今日卡片
   useEffect(() => {
@@ -232,7 +233,10 @@ export function DailyCard() {
                   <p className="text-sm text-white/60">
                     —— {currentCard.source}
                   </p>
-                  <button className="border border-secondary text-secondary rounded-full px-6 py-2 text-sm hover:bg-secondary hover:text-primary transition-colors">
+                  <button 
+                    onClick={handleCheckIn}
+                    className="border border-secondary text-secondary rounded-full px-6 py-2 text-sm hover:bg-secondary hover:text-primary transition-colors"
+                  >
                     完成打卡
                   </button>
                 </div>

@@ -22,7 +22,7 @@ export const exhibitionHalls: Hall[] = [
     subtitle: "提供完整方法论的女性思想家",
     description: "她们用系统化思维拆解复杂问题，为女性成长提供可执行的路径。从时间管理到优势管理，从心理学到社会学，她们构建了一套完整的女性觉醒方法论体系。",
     visualStyle: "秩序感、模块化",
-    image: "/images/hall-system.jpg",
+    image: "", // 待添加展厅图片
     women: [
       {
         name: "王潇",
@@ -222,7 +222,7 @@ export const exhibitionHalls: Hall[] = [
     subtitle: "Z世代的新锐声音",
     description: "她们用新媒体、新技术、新视角重新定义女性觉醒。从短视频到播客，从社交媒体到元宇宙，她们用Z世代的语言传播女性力量。",
     visualStyle: "数字原生、动态感",
-    image: "/images/hall-newgen.jpg",
+    image: "", // 待添加展厅图片
     women: [
       {
         name: "Greta Thunberg",

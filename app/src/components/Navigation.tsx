@@ -15,7 +15,7 @@ const navItems = [
   { name: '问题', href: '#problem-radar' },
   { name: '榜样', href: '#mbti-gallery' },
   { name: '展厅', href: '#exhibition-halls' },
-  { name: '今日', href: '#daily-card' },
+  { name: '行动', href: '#daily-card' },
 ];
 
 export function Navigation() {
