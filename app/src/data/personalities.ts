@@ -488,9 +488,10 @@ export const personalities: Personality[] = [
 
 // 导入额外的人物数据
 import { additionalPersonalities } from './personalities-additional';
+import { additionalPersonalitiesPart2 } from './personalities-additional-2';
 
 // 合并基础数据和额外数据
-export const allPersonalities: Personality[] = [...personalities, ...additionalPersonalities];
+export const allPersonalities: Personality[] = [...personalities, ...additionalPersonalities, ...additionalPersonalitiesPart2];
 
 export const getPersonalityByType = (type: string): Personality | undefined => {
   return allPersonalities.find(p => p.type === type.toUpperCase());
