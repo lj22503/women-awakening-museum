@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Auto-Fix)
 
 on:
   push:
@@ -31,11 +31,38 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      # ========== 自动修复步骤 ==========
+      - name: Auto-fix common issues
+        run: |
+          echo "🔧 自动修复 1: 同步 package-lock.json"
+          npm install 2>&1 || echo "⚠️ npm install 失败，继续尝试..."
+          
+          echo "🔧 自动修复 2: 确保 dist 目录存在"
+          mkdir -p dist
+          
+          echo "🔧 自动修复 3: 检查 build 脚本"
+          if ! grep -q '"build"' package.json; then
+            echo "⚠️ 缺少 build 脚本，添加默认命令"
+            npm pkg set scripts.build="vite build"
+          fi
+          
+          echo "✅ 自动修复完成"
+
       - name: Install dependencies
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: npm run build || (echo "⚠️ 构建失败，尝试强制构建" && npm run build --force)
+
+      - name: Verify build output
+        run: |
+          echo "📁 检查构建输出..."
+          ls -la dist/
+          if [ ! -f dist/index.html ]; then
+            echo "❌ dist/index.html 不存在"
+            exit 1
+          fi
+          echo "✅ 构建成功"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
