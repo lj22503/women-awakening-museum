@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react'; // 修复：移除未使用的 useEffect (TS6133)
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, Heart } from 'lucide-react';
+import { Menu, X, Search, Heart } from 'lucide-react'; // 修复：移除未使用的 Sparkles (TS6133)
 import { Button } from '@/components/ui/button';
 
 const navItems = [

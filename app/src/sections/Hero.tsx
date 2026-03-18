@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react'; // 修复：移除未使用的 Sparkles (TS6133)
 import { Button } from '@/components/ui/button';
 import { MBTITest } from '@/components/MBTITest';
 

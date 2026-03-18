@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Zap } from 'lucide-react';
+import { Zap } from 'lucide-react'; // 移除未使用的 Calendar
 
+/**
+ * 浮动操作按钮 - 每日打卡功能
+ * 
+ * 修复记录 (2026-03-18):
+ * - 移除未使用的 Calendar import（TypeScript 报错 TS6133）
+ * - 注释掉 isPulsing 状态变量（未使用，TS6133）
+ * - 保留红点脉冲动画逻辑，但改用 hasCheckedInToday 控制
+ */
 export function FloatingActionButton() {
   const [hasCheckedInToday, setHasCheckedInToday] = useState(false);
-  // isPulsing 保留但注释掉，避免 TypeScript 报错
+  // 修复：注释掉未使用的 isPulsing 状态（TS6133 错误）
   // const [isPulsing, setIsPulsing] = useState(false);
 
   // 检查今日是否已打卡（模拟）
@@ -15,7 +23,7 @@ export function FloatingActionButton() {
       setHasCheckedInToday(true);
     } else {
       setHasCheckedInToday(false);
-      // 启动红点脉冲动画
+      // 修复：注释掉未使用的 setIsPulsing 调用
       // setIsPulsing(true);
     }
   }, []);
@@ -25,6 +33,7 @@ export function FloatingActionButton() {
     const today = new Date().toDateString();
     localStorage.setItem('daily-checkin', today);
     setHasCheckedInToday(true);
+    // 修复：注释掉未使用的 setIsPulsing 调用
     // setIsPulsing(false);
     // 可以触发其他操作，比如打开打卡面板
     alert('今日已打卡！');
