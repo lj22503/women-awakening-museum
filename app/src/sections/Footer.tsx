@@ -42,13 +42,20 @@ export function Footer() {
               GitHub 仓库
             </a>
             <a
-              href="https://github.com/lj22503"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:lj22503@gmail.com"
               className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full hover:bg-white/10 transition-colors font-medium"
             >
-              联系发起人
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              lj22503@gmail.com
             </a>
+            <div className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full font-medium">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.691 2.188C3.891 2.188 0 5.659 0 9.937c0 2.417 1.207 4.578 3.117 6.138-.263.839-.552 1.684-.792 2.426-.145.448.266.884.708.728.812-.287 2.584-.935 3.348-1.238.898.48 1.916.757 2.997.757 4.8 0 8.691-3.471 8.691-7.749S13.491 2.188 8.691 2.188zM7.222 14.62c-.217.085-.461.108-.687.052-.397-.098-1.283-.469-1.283-.469s-1.824 1.036-2.356 1.236c-.161.06-.337.005-.433-.141-.096-.146-.072-.355.062-.475.539-.482 1.196-1.21 1.445-1.555.075-.104.063-.243-.031-.332-.485-.455-.962-1.077-1.243-1.644-.281-.567-.421-1.177-.421-1.775 0-2.874 2.641-5.205 5.893-5.205 3.252 0 5.893 2.331 5.893 5.205 0 1.366-.567 2.607-1.508 3.538-.941.931-2.234 1.508-3.667 1.508-1.081 0-2.099-.277-2.997-.757-.287.152-.573.304-.86.456-.287.152-.573.304-.86.456z"/>
+              </svg>
+              微信：lj22503
+            </div>
           </div>
         </div>
 
