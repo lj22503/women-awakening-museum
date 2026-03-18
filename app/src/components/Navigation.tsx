@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sparkles, Search, Heart } from 'lucide-react';
+import { Menu, X, Search, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navItems = [

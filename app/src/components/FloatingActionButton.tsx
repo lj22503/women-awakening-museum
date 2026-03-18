@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Zap } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 export function FloatingActionButton() {
   const [hasCheckedInToday, setHasCheckedInToday] = useState(false);
-  const [isPulsing, setIsPulsing] = useState(false);
+  // isPulsing 保留但注释掉，避免 TypeScript 报错
+  // const [isPulsing, setIsPulsing] = useState(false);
 
   // 检查今日是否已打卡（模拟）
   useEffect(() => {
@@ -15,7 +16,7 @@ export function FloatingActionButton() {
     } else {
       setHasCheckedInToday(false);
       // 启动红点脉冲动画
-      setIsPulsing(true);
+      // setIsPulsing(true);
     }
   }, []);
 
@@ -24,7 +25,7 @@ export function FloatingActionButton() {
     const today = new Date().toDateString();
     localStorage.setItem('daily-checkin', today);
     setHasCheckedInToday(true);
-    setIsPulsing(false);
+    // setIsPulsing(false);
     // 可以触发其他操作，比如打开打卡面板
     alert('今日已打卡！');
   };
