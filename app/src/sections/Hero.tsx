@@ -96,7 +96,7 @@ export function Hero() {
               onClick={() => setIsTestOpen(true)}
               className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
             >
-              查看今日灵感
+              测测你的 MBTI
             </Button>
           </motion.div>
         </div>
