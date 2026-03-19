@@ -120,7 +120,7 @@ export function ExhibitionHalls() {
           className="h-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide"
           style={{ scrollSnapType: 'x mandatory' }}
         >
-          <div className="flex h-full" style={{ width: `${exhibitionHalls.length * 100}vw` }}>
+          <div className="flex h-full" style={{ width: `${exhibitionHalls.length * 100}%` }}>
             {exhibitionHalls.map((hall, index) => {
               const HallIcon = hallIcons[hall.id];
               const color = hallColors[hall.id];

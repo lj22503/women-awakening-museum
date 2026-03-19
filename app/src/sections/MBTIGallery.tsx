@@ -98,7 +98,7 @@ export function MBTIGallery() {
 
   return (
     <>
-      <section id="mbti-gallery" className="min-h-screen bg-background flex">
+      <section id="mbti-gallery" key={`mbti-${activeType}`} className="min-h-screen bg-background flex">
         {/* 左侧事件轴 - MBTI类型导航 */}
         <div className="w-20 md:w-28 bg-neutral-900 border-r border-white/10 flex flex-col items-center py-8 sticky top-0 h-screen overflow-y-auto scrollbar-hide">
           <div className="mb-6">
