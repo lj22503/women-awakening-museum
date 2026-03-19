@@ -49,6 +49,16 @@ const getDefaultType = (): string => {
   return 'INTJ';
 };
 
+// 去重后的 MBTI 类型列表（保持原始顺序）
+const uniquePersonalities = (() => {
+  const seen = new Set<string>();
+  return allPersonalities.filter(p => {
+    if (seen.has(p.type)) return false;
+    seen.add(p.type);
+    return true;
+  });
+})();
+
 export function MBTIGallery() {
   const [activeType, setActiveType] = useState(0);
   const [selectedWoman, setSelectedWoman] = useState<typeof allPersonalities[0]['women'][0] | null>(null);
@@ -79,7 +89,7 @@ export function MBTIGallery() {
 
   // 切换人物
   const changeWoman = (direction: 'prev' | 'next') => {
-    const currentPersonality = allPersonalities[activeType];
+    const currentPersonality = uniquePersonalities[activeType];
     const newIndex = direction === 'next'
       ? (activeWomanIndex + 1) % currentPersonality.women.length
       : (activeWomanIndex - 1 + currentPersonality.women.length) % currentPersonality.women.length;
@@ -93,7 +103,7 @@ export function MBTIGallery() {
     }
   };
 
-  const currentPersonality = allPersonalities[activeType];
+  const currentPersonality = uniquePersonalities[activeType];
   const color = mbtiColors[currentPersonality.type] || '#242422';
 
   return (
@@ -108,7 +118,7 @@ export function MBTIGallery() {
           </div>
 
           <div className="flex flex-col gap-2 flex-1">
-            {allPersonalities.map((p, index) => {
+            {uniquePersonalities.map((p, index) => {
               const isActive = index === activeType;
               const pColor = mbtiColors[p.type];
               return (
@@ -136,7 +146,7 @@ export function MBTIGallery() {
 
           {/* 当前类型指示 */}
           <div className="mt-6 text-center">
-            <span className="text-white/60 text-xs">{activeType + 1}/16</span>
+            <span className="text-white/60 text-xs">{activeType + 1}/{uniquePersonalities.length}</span>
           </div>
         </div>
 
