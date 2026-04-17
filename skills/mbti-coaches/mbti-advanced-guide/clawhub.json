@@ -1,0 +1,13 @@
+{
+  "name": "mbti-advanced-guide",
+  "version": "1.0.0",
+  "description": "MBTI 进阶指南 - 16 型人格系统化成长策略（v1.0.0 符合 skill 3.0 标准）",
+  "author": "燃冰 + ant",
+  "license": "MIT",
+  "keywords": ["MBTI", "进阶", "成长", "指南", "16 型人格"],
+  "category": "productivity",
+  "tags": ["mbti", "personal-growth", "coaching", "self-improvement"],
+  "main": "SKILL.md",
+  "files": ["SKILL.md", "references"],
+  "repository": {"type": "git", "url": "https://github.com/lj22503/women-awakening-museum.git"}
+}
