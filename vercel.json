@@ -1,4 +1,3 @@
 {
-  "outputDirectory": "app/dist",
-  "buildCommand": "cd app && npm run build"
+  "outputDirectory": "dist"
 }
