@@ -1,7 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { allPersonalities } from '@/data/personalities';
-import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb, MessageCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb, MessageCircle, Copy, Check } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
 
 // MBTI类型颜色映射
 const mbtiColors: Record<string, string> = {
@@ -92,8 +101,44 @@ export function MBTIGallery() {
   const [activeType, setActiveType] = useState(0);
   const [selectedWoman, setSelectedWoman] = useState<typeof allPersonalities[0]['women'][0] | null>(null);
   const [activeWomanIndex, setActiveWomanIndex] = useState(0);
+  const [coachDialogOpen, setCoachDialogOpen] = useState(false);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const womanScrollRef = useRef<HTMLDivElement>(null);
+
+  const copyToClipboard = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    } catch {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2000);
+    }
+  };
+
+  const currentPersonality = uniquePersonalities[activeType];
+  const color = mbtiColors[currentPersonality.type] || '#242422';
+  const mbtiType = currentPersonality.type.toLowerCase();
+  const githubUrl = `https://github.com/lj22503/women-awakening-museum/tree/main/skills/mbti-coaches/${mbtiType}-coach`;
+  const clawhubUrl = `https://clawhub.ai/lj22503/lj22503-${mbtiType}-coach`;
+  const examplePrompt = `我是 ${currentPersonality.type}（${currentPersonality.name}）。最近在${currentPersonality.traits.strengths[0] || '职业方向'}上遇到困惑，能聊聊吗？`;
+  const skillPrompt = `【角色】你是 ${currentPersonality.type} 成长教练，专为 ${currentPersonality.name} 设计。
+
+【用户画像】${currentPersonality.description}
+
+【核心优势】${currentPersonality.traits.strengths.join('、')}
+
+【对话风格】像懂你的朋友，先听你说完，再问一个关键问题帮你想清楚。
+
+【开始】问我："今天想聊点啥？"`;
 
   // 初始化定位到用户测试的类型
   useEffect(() => {
@@ -131,9 +176,6 @@ export function MBTIGallery() {
       }
     }
   };
-
-  const currentPersonality = uniquePersonalities[activeType];
-  const color = mbtiColors[currentPersonality.type] || '#242422';
 
   return (
     <>
@@ -312,13 +354,7 @@ export function MBTIGallery() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: currentPersonality.women.length * 0.1 }}
-                onClick={() => {
-                  // 保存当前类型到 localStorage，触发教练对话
-                  localStorage.setItem('mbtiCoachType', currentPersonality.type);
-                  localStorage.setItem('mbtiCoachEntry', 'true');
-                  // 滚动到页面顶部或触发全局教练弹窗（待接入）
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                onClick={() => setCoachDialogOpen(true)}
                 className="flex-shrink-0 w-[320px] md:w-[400px] snap-center cursor-pointer"
               >
                 <div
@@ -531,6 +567,98 @@ export function MBTIGallery() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* MBTI Coach 技能获取弹窗 */}
+      <AlertDialog open={coachDialogOpen} onOpenChange={setCoachDialogOpen}>
+        <AlertDialogContent className="max-w-lg">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <MessageCircle className="w-5 h-5" style={{ color }} />
+              {currentPersonality.type} 成长教练
+            </AlertDialogTitle>
+            <AlertDialogDescription className="pt-2 space-y-4">
+
+              {/* 示例 prompt */}
+              <div className="bg-neutral-100 rounded-lg p-4 text-left">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">快速开始 prompt</span>
+                  <button
+                    onClick={() => copyToClipboard(examplePrompt, 'example')}
+                    className="flex items-center gap-1 text-xs text-secondary hover:underline"
+                  >
+                    {copiedField === 'example' ? (
+                      <><Check className="w-3 h-3" /> 已复制</>
+                    ) : (
+                      <><Copy className="w-3 h-3" /> 复制</>
+                    )}
+                  </button>
+                </div>
+                <p className="text-sm text-neutral-700 font-mono leading-relaxed">{examplePrompt}</p>
+              </div>
+
+              {/* Skill 地址 */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between bg-neutral-100 rounded-lg p-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-neutral-400 mb-0.5">GitHub（完整技能包）</p>
+                    <p className="text-xs text-neutral-600 truncate">{githubUrl}</p>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(githubUrl, 'github')}
+                    className="ml-3 flex-shrink-0 flex items-center gap-1 text-xs text-secondary hover:underline"
+                  >
+                    {copiedField === 'github' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copiedField === 'github' ? '已复制' : '复制'}
+                  </button>
+                </div>
+                <div className="flex items-center justify-between bg-neutral-100 rounded-lg p-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-neutral-400 mb-0.5">ClawHub（在线使用）</p>
+                    <p className="text-xs text-neutral-600 truncate">{clawhubUrl}</p>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(clawhubUrl, 'clawhub')}
+                    className="ml-3 flex-shrink-0 flex items-center gap-1 text-xs text-secondary hover:underline"
+                  >
+                    {copiedField === 'clawhub' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                    {copiedField === 'clawhub' ? '已复制' : '复制'}
+                  </button>
+                </div>
+              </div>
+
+              {/* 完整 prompt 模板 */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">完整 prompt（可自定义）</span>
+                  <button
+                    onClick={() => copyToClipboard(skillPrompt, 'prompt')}
+                    className="flex items-center gap-1 text-xs text-secondary hover:underline"
+                  >
+                    {copiedField === 'prompt' ? <><Check className="w-3 h-3" /> 已复制</> : <><Copy className="w-3 h-3" /> 复制</>}
+                  </button>
+                </div>
+                <pre className="text-xs text-neutral-600 bg-neutral-100 rounded-lg p-3 whitespace-pre-wrap leading-relaxed font-mono">
+                  {skillPrompt}
+                </pre>
+              </div>
+
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction asChild>
+              <a
+                href={clawhubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-colors"
+                style={{ backgroundColor: color, color: '#fff' }}
+              >
+                打开 ClawHub 使用
+              </a>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
