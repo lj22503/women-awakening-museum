@@ -109,10 +109,17 @@ export function Hero() {
             </Button>
             <Button
               variant="outline"
-              onClick={scrollToAction}
+              onClick={() => {
+                const element = document.getElementById('mbti-gallery');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                  setIsTestOpen(true);
+                }
+              }}
               className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
             >
-              今日行动
+              你适合怎样的榜样
             </Button>
           </motion.div>
         </div>

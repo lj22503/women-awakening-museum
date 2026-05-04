@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { allPersonalities } from '@/data/personalities';
-import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb, MessageCircle } from 'lucide-react';
 
 // MBTI类型颜色映射
 const mbtiColors: Record<string, string> = {
@@ -11,8 +11,10 @@ const mbtiColors: Record<string, string> = {
   "ISTP": "#8B6A4A", "ISFP": "#9B7A5A", "ESTP": "#AB8A6A", "ESFP": "#BB9A7A"
 };
 
-// 人物头像映射
+// 人物头像映射（覆盖所有有图片的人物）
+// 使用规则：优先用id对应文件名（去掉扩展名），fallback用首字母缩写
 const womanAvatars: Record<string, string> = {
+  // personalities.ts 基础26人
   "jane-austen": "/images/jane-austen.jpg",
   "jk-rowling": "/images/jk-rowling.jpg",
   "eileen-gu": "/images/eileen-gu.jpg",
@@ -39,6 +41,35 @@ const womanAvatars: Record<string, string> = {
   "madonna": "/images/madonna.jpg",
   "katharine-hepburn": "/images/katharine-hepburn.jpg",
   "marilyn-monroe": "/images/marilyn-monroe.jpg",
+  // ExhibitionHalls 专属人物（复用 images/ 目录中的文件）
+  "wangxiao": "/images/wangxiao.jpg",
+  "cuicui": "/images/cuicui.jpg",
+  "liangning": "/images/liangning.jpg",
+  "liyino": "/images/liyino.jpg",
+  "susancain": "/images/susancain.jpg",
+  // personalities-additional 系列人物（未来扩展用）
+  "yang-lan": "/images/yang-lan.jpg",
+  "miley-cyrus": "/images/miley-cyrus.jpg",
+  "marissa-mayer": "/images/marissa-mayer.jpg",
+  "michelle-obama": "/images/michelleobama.jpg",
+  "malala": "/images/malala.jpg",
+  "greta-thunberg": "/images/gretathunberg.jpg",
+  "ueno": "/images/ueno.jpg",
+  "bellhooks": "/images/bellhooks.jpg",
+  "chimamanda": "/images/chimamanda.jpg",
+  "amandagorman": "/images/amandagorman.jpg",
+  "rebecca-solnit": "/images/rebeccasolnit.jpg",
+  "roxane-gay": "/images/roxanegay.jpg",
+  "sally-rooney": "/images/sallyrooney.jpg",
+  "judith-butler": "/images/judith-butler.jpg",
+  "tara-westover": "/images/tarawestover.jpg",
+  "isabella-bird": "/images/isabella-bird.jpg",
+  "katherine-johnson": "/images/katherine-johnson.jpg",
+  "monacha-labbi": "/images/monachalabi.jpg",
+  "ursula-le-guin": "/images/ursula-leguin.jpg",
+  "neri-oxman": "/images/nerioxman.jpg",
+  "margaret-thatcher": "/images/margaret-thatcher.jpg",
+  "sonia-sotomayor": "/images/sonia-sotomayor.jpg",
 };
 
 // 获取默认MBTI类型（从localStorage或默认INTJ）
@@ -277,6 +308,47 @@ export function MBTIGallery() {
                   </motion.div>
                 );
               })}
+
+              {/* AI 教练入口卡 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: currentPersonality.women.length * 0.1 }}
+                onClick={() => {
+                  // 保存当前类型到 localStorage，触发教练对话
+                  localStorage.setItem('mbtiCoachType', currentPersonality.type);
+                  localStorage.setItem('mbtiCoachEntry', 'true');
+                  // 滚动到页面顶部或触发全局教练弹窗（待接入）
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="flex-shrink-0 w-[320px] md:w-[400px] snap-center cursor-pointer"
+              >
+                <div
+                  className="h-full rounded-2xl overflow-hidden border-2 border-dashed hover:border-solid transition-all duration-300 hover:scale-[1.02]"
+                  style={{ borderColor: `${color}80`, backgroundColor: `${color}08` }}
+                >
+                  <div className="p-8 flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                    <div
+                      className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+                      style={{ backgroundColor: `${color}20` }}
+                    >
+                      <MessageCircle className="w-10 h-10" style={{ color }} />
+                    </div>
+                    <h4 className="font-serif text-xl mb-2" style={{ color }}>
+                      {currentPersonality.type} AI 教练
+                    </h4>
+                    <p className="text-sm text-white/60 mb-6 leading-relaxed">
+                      专为 {currentPersonality.type} 设计的成长对话伙伴，帮助你突破卡点、找到方向
+                    </p>
+                    <div className="px-4 py-2 rounded-full text-sm font-medium" style={{ backgroundColor: color, color: '#fff' }}>
+                      立即开启教练对话
+                    </div>
+                    <p className="text-xs text-white/30 mt-3">
+                      基于 {currentPersonality.type} · {currentPersonality.name} 人格特质
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
             {/* 人物指示器 */}
