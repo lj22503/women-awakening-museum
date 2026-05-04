@@ -159,7 +159,7 @@ export default function ExhibitionHalls() {
 
   return (
     <>
-      <section className="relative bg-[#242422] min-h-screen overflow-hidden">
+      <section id="exhibition-halls" className="relative bg-[#242422] min-h-screen overflow-hidden">
         {/* 背景装饰 */}
         <div className="absolute inset-0 opacity-5">
           <div
@@ -173,7 +173,7 @@ export default function ExhibitionHalls() {
         </div>
 
         {/* 标题区 */}
-        <div className="relative z-10 pt-20 pb-8 px-6 md:px-12">
+        <div className="relative z-10 pt-20 pb-8 px-6 md:px-12 max-w-7xl mx-auto">
           <span className="font-label text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block">
             Exhibition Halls
           </span>
@@ -186,7 +186,7 @@ export default function ExhibitionHalls() {
         </div>
 
         {/* 标签切换区 */}
-        <div className="relative z-10 px-6 md:px-12 mb-8">
+        <div className="relative z-10 px-6 md:px-12 mb-8 max-w-7xl mx-auto">
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {exhibitionHalls.map((hall, index) => (
               <button
@@ -211,7 +211,7 @@ export default function ExhibitionHalls() {
         </div>
 
         {/* 展厅内容区 */}
-        <div className="relative z-10 px-6 md:px-12 pb-24">
+        <div className="relative z-10 px-6 md:px-12 pb-24 max-w-7xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeHall}
@@ -277,7 +277,7 @@ export default function ExhibitionHalls() {
                         )}
                       </div>
                       <div className="text-white flex-1 pr-24">
-                        <h4 className="font-display text-xl mb-1">{woman.name}</h4>
+                        <h4 className="font-serif text-xl mb-1">{woman.name}</h4>
                         <p className="text-sm text-white/60">{woman.title}</p>
                       </div>
                     </div>

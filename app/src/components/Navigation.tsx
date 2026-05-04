@@ -12,10 +12,10 @@ import { Button } from '@/components/ui/button';
  * - 更新导航项名称：探索→问题，测试→榜样
  */
 const navItems = [
-  { name: '问题', href: '#problem-radar' },
-  { name: '榜样', href: '#mbti-gallery' },
-  { name: '展厅', href: '#exhibition-halls' },
-  { name: '行动', href: '#daily-card' },
+  { name: '女性困惑', href: '#problem-radar' },
+  { name: '五大展厅', href: '#exhibition-halls' },
+  { name: 'MBTI人格', href: '#mbti-gallery' },
+  { name: '今日行动', href: '#daily-card' },
 ];
 
 export function Navigation() {

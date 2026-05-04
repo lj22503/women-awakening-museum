@@ -142,7 +142,7 @@ export function DailyCard() {
   const avatarUrl = avatarMap[currentCard.name];
 
   return (
-    <section className="py-24 bg-background overflow-hidden">
+    <section id="daily-card" className="py-24 bg-background overflow-hidden">
       <div className="max-w-4xl mx-auto px-6">
         {/* 标题 */}
         <div className="flex items-center justify-center gap-2 mb-12">
