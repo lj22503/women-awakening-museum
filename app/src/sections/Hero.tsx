@@ -13,13 +13,6 @@ export function Hero() {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-  
-  const scrollToAction = () => {
-    const element = document.getElementById('daily-card');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
 
   return (
     <>

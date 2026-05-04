@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { exhibitionHalls, type Hall } from '../data/exhibitionHalls';
 
 // 人物详情组件（统一详情卡片）

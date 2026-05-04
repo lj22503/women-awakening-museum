@@ -41,7 +41,7 @@ const womanAvatars: Record<string, string> = {
   "madonna": "/images/madonna.jpg",
   "katharine-hepburn": "/images/katharine-hepburn.jpg",
   "marilyn-monroe": "/images/marilyn-monroe.jpg",
-  // ExhibitionHalls 专属人物（复用 images/ 目录中的文件）
+  // personalities-additional 系列人物（未来扩展用）
   "wangxiao": "/images/wangxiao.jpg",
   "cuicui": "/images/cuicui.jpg",
   "liangning": "/images/liangning.jpg",
@@ -68,8 +68,6 @@ const womanAvatars: Record<string, string> = {
   "monacha-labbi": "/images/monachalabi.jpg",
   "ursula-le-guin": "/images/ursula-leguin.jpg",
   "neri-oxman": "/images/nerioxman.jpg",
-  "margaret-thatcher": "/images/margaret-thatcher.jpg",
-  "sonia-sotomayor": "/images/sonia-sotomayor.jpg",
 };
 
 // 获取默认MBTI类型（从localStorage或默认INTJ）
