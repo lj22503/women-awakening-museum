@@ -161,7 +161,7 @@ export default function ExhibitionHalls() {
     <>
       <section id="exhibition-halls" className="relative bg-[#242422] min-h-screen overflow-hidden">
         {/* 背景装饰 */}
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
           <div
             className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full"
             style={{
@@ -173,26 +173,26 @@ export default function ExhibitionHalls() {
         </div>
 
         {/* 标题区 */}
-        <div className="relative z-10 pt-20 pb-8 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="relative z-10 pt-20 pb-8 px-4 md:px-6 max-w-7xl mx-auto">
           <span className="font-label text-xs tracking-[0.2em] text-white/40 uppercase mb-4 block">
             Exhibition Halls
           </span>
-          <h2 className="font-display text-5xl md:text-6xl text-white mb-4">
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-4">
             五大主题展厅
           </h2>
-          <p className="text-white/50 text-lg max-w-xl">
+          <p className="text-white/50 text-base md:text-lg max-w-xl">
             点击标签切换展厅，浏览每位女性榜样的思想与方法论
           </p>
         </div>
 
         {/* 标签切换区 */}
-        <div className="relative z-10 px-6 md:px-12 mb-8 max-w-7xl mx-auto">
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="relative z-10 px-4 md:px-6 mb-8 max-w-7xl mx-auto">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
             {exhibitionHalls.map((hall, index) => (
               <button
                 key={hall.id}
                 onClick={() => setActiveHall(index)}
-                className={`flex-shrink-0 px-5 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                   activeHall === index
                     ? 'text-white'
                     : 'bg-white/10 text-white/50 hover:bg-white/20 hover:text-white/70'
@@ -211,7 +211,7 @@ export default function ExhibitionHalls() {
         </div>
 
         {/* 展厅内容区 */}
-        <div className="relative z-10 px-6 md:px-12 pb-24 max-w-7xl mx-auto">
+        <div className="relative z-10 px-4 md:px-6 pb-24 max-w-7xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeHall}
@@ -222,13 +222,13 @@ export default function ExhibitionHalls() {
             >
               {/* 展厅简介 */}
               <div className="mb-8 max-w-3xl">
-                <p className="text-white/70 text-lg leading-relaxed">
+                <p className="text-white/70 text-base md:text-lg leading-relaxed">
                   {exhibitionHalls[activeHall].description}
                 </p>
               </div>
 
               {/* 人物卡片网格 */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {exhibitionHalls[activeHall].women.map((woman, index) => (
                   <motion.div
                     key={`${exhibitionHalls[activeHall].id}-${woman.name}`}

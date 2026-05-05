@@ -160,7 +160,7 @@ export function ProblemRadar() {
                 </div>
                 {/* 内容 */}
                 <div className="p-4 text-center">
-                  <h4 className="font-serif text-xl text-white">{model.name}</h4>
+                  <h3 className="font-serif text-xl text-white">{model.name}</h3>
                   <p className="text-xs text-white/50 uppercase tracking-wider mt-1">{model.title}</p>
                   <div className="inline-flex items-center justify-center mt-3 bg-white/10 rounded-full px-3 py-1">
                     <span className="text-xs text-white">{model.category}</span>
@@ -211,7 +211,7 @@ export function ProblemRadar() {
                 />
               </div>
               <div>
-                <h3 className="font-display text-2xl text-[#242422]">{selectedModel.name}</h3>
+                <h3 className="font-serif text-2xl text-[#242422]">{selectedModel.name}</h3>
                 <p className="text-[#969188]">{selectedModel.title}</p>
                 <span className="inline-block mt-2 px-3 py-1 bg-[#f5f3ef] rounded-full text-xs text-[#969188]">
                   {selectedModel.category}

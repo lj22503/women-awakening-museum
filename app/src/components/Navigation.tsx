@@ -86,8 +86,17 @@ export function Navigation() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="font-display text-3xl text-[#242422]"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    setTimeout(() => {
+                      const target = document.querySelector(item.href);
+                      if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }, 300);
+                  }}
+                  className="font-sans text-3xl text-[#242422]"
                 >
                   {item.name}
                 </motion.a>

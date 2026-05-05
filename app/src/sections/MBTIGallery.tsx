@@ -5,11 +5,10 @@ import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb, Me
 import {
   AlertDialog,
   AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogAction,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
 // MBTI类型颜色映射
@@ -358,27 +357,30 @@ export function MBTIGallery() {
                 className="flex-shrink-0 w-[320px] md:w-[400px] snap-center cursor-pointer"
               >
                 <div
-                  className="h-full rounded-2xl overflow-hidden border-2 border-dashed hover:border-solid transition-all duration-300 hover:scale-[1.02]"
-                  style={{ borderColor: `${color}80`, backgroundColor: `${color}08` }}
+                  className="h-full rounded-2xl overflow-hidden border-2 transition-all duration-300 hover:scale-[1.02]"
+                  style={{ borderColor: `${color}`, backgroundColor: `${color}10` }}
                 >
                   <div className="p-8 flex flex-col items-center justify-center h-full min-h-[400px] text-center">
                     <div
                       className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
-                      style={{ backgroundColor: `${color}20` }}
+                      style={{ backgroundColor: `${color}30` }}
                     >
                       <MessageCircle className="w-10 h-10" style={{ color }} />
                     </div>
                     <h4 className="font-serif text-xl mb-2" style={{ color }}>
-                      {currentPersonality.type} AI 教练
+                      开启 {currentPersonality.type} 成长教练
                     </h4>
                     <p className="text-sm text-white/60 mb-6 leading-relaxed">
-                      专为 {currentPersonality.type} 设计的成长对话伙伴，帮助你突破卡点、找到方向
+                      专为 {currentPersonality.name} 设计的成长对话伙伴，帮你突破卡点
                     </p>
-                    <div className="px-4 py-2 rounded-full text-sm font-medium" style={{ backgroundColor: color, color: '#fff' }}>
+                    <div 
+                      className="px-6 py-3 rounded-full text-base font-medium text-white font-sans"
+                      style={{ backgroundColor: color }}
+                    >
                       立即开启教练对话
                     </div>
                     <p className="text-xs text-white/30 mt-3">
-                      基于 {currentPersonality.type} · {currentPersonality.name} 人格特质
+                      基于 {currentPersonality.type} 人格特质
                     </p>
                   </div>
                 </div>
@@ -397,14 +399,20 @@ export function MBTIGallery() {
                       element?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
                     }
                   }}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  className={`h-2 rounded-full transition-all duration-300 ${
                     index === activeWomanIndex
                       ? 'w-6'
-                      : 'bg-white/20 hover:bg-white/40'
+                      : 'w-2 bg-white/20 hover:bg-white/40'
                   }`}
                   style={{ backgroundColor: index === activeWomanIndex ? color : undefined }}
                 />
               ))}
+              {/* Coach card indicator */}
+              <button
+                onClick={() => setCoachDialogOpen(true)}
+                className="h-2 w-2 rounded-full bg-white/20 hover:bg-white/40 transition-all duration-300"
+                style={{ backgroundColor: color }}
+              />
             </div>
           </div>
         </div>
@@ -572,90 +580,98 @@ export function MBTIGallery() {
       <AlertDialog open={coachDialogOpen} onOpenChange={setCoachDialogOpen}>
         <AlertDialogContent className="max-w-lg">
           <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
+            <AlertDialogTitle className="flex items-center gap-2 font-serif text-xl">
               <MessageCircle className="w-5 h-5" style={{ color }} />
-              {currentPersonality.type} 成长教练
+              {currentPersonality.type} 成长教练 · {currentPersonality.name}
             </AlertDialogTitle>
-            <AlertDialogDescription className="pt-2 space-y-4">
+            <AlertDialogDescription className="pt-4 space-y-4">
 
-              {/* 示例 prompt */}
-              <div className="bg-neutral-100 rounded-lg p-4 text-left">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">快速开始 prompt</span>
-                  <button
-                    onClick={() => copyToClipboard(examplePrompt, 'example')}
-                    className="flex items-center gap-1 text-xs text-secondary hover:underline"
-                  >
-                    {copiedField === 'example' ? (
-                      <><Check className="w-3 h-3" /> 已复制</>
-                    ) : (
-                      <><Copy className="w-3 h-3" /> 复制</>
-                    )}
-                  </button>
-                </div>
-                <p className="text-sm text-neutral-700 font-mono leading-relaxed">{examplePrompt}</p>
+              {/* 核心价值说明 */}
+              <div className="bg-neutral-50 rounded-xl p-4 text-left border border-neutral-200">
+                <p className="text-sm text-neutral-700 leading-relaxed">
+                  这是专为 <strong>{currentPersonality.name}</strong> 设计的 AI 教练技能。
+                  基于 {currentPersonality.type} 的核心优势
+                  （{currentPersonality.traits.strengths.slice(0,2).join('、')}），
+                  帮你突破成长卡点、找到行动方向。
+                </p>
               </div>
 
-              {/* Skill 地址 */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between bg-neutral-100 rounded-lg p-3">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-neutral-400 mb-0.5">GitHub（完整技能包）</p>
+              {/* 使用方式一：在线使用 */}
+              <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-200">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">方式一：在线使用（推荐）</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0 mr-3">
+                    <p className="text-sm text-neutral-700 truncate">{clawhubUrl}</p>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(clawhubUrl, 'clawhub')}
+                    className="flex-shrink-0 flex items-center gap-1 text-xs font-medium"
+                    style={{ color }}
+                  >
+                    {copiedField === 'clawhub' ? <><Check className="w-3 h-3" /> 已复制</> : <><Copy className="w-3 h-3" /> 复制</>}
+                  </button>
+                </div>
+              </div>
+
+              {/* 使用方式二：下载 Skill */}
+              <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-200">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">方式二：下载 Skill 到本地</span>
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex-1 min-w-0 mr-3">
                     <p className="text-xs text-neutral-600 truncate">{githubUrl}</p>
                   </div>
                   <button
                     onClick={() => copyToClipboard(githubUrl, 'github')}
-                    className="ml-3 flex-shrink-0 flex items-center gap-1 text-xs text-secondary hover:underline"
+                    className="flex-shrink-0 flex items-center gap-1 text-xs font-medium"
+                    style={{ color }}
                   >
                     {copiedField === 'github' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                     {copiedField === 'github' ? '已复制' : '复制'}
                   </button>
                 </div>
-                <div className="flex items-center justify-between bg-neutral-100 rounded-lg p-3">
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-neutral-400 mb-0.5">ClawHub（在线使用）</p>
-                    <p className="text-xs text-neutral-600 truncate">{clawhubUrl}</p>
-                  </div>
-                  <button
-                    onClick={() => copyToClipboard(clawhubUrl, 'clawhub')}
-                    className="ml-3 flex-shrink-0 flex items-center gap-1 text-xs text-secondary hover:underline"
-                  >
-                    {copiedField === 'clawhub' ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    {copiedField === 'clawhub' ? '已复制' : '复制'}
-                  </button>
+                <div className="text-xs text-neutral-400">
+                  Skill 包含完整 prompt 模板，可导入 MiniMax、Clawhub 等支持自定义 Skill 的 AI 助手使用。
                 </div>
               </div>
 
-              {/* 完整 prompt 模板 */}
-              <div>
+              {/* 快速开始 prompt */}
+              <div className="bg-neutral-100 rounded-xl p-4 text-left">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">完整 prompt（可自定义）</span>
+                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">快速开始 prompt</span>
                   <button
-                    onClick={() => copyToClipboard(skillPrompt, 'prompt')}
-                    className="flex items-center gap-1 text-xs text-secondary hover:underline"
+                    onClick={() => copyToClipboard(examplePrompt, 'example')}
+                    className="flex items-center gap-1 text-xs font-medium"
+                    style={{ color }}
                   >
-                    {copiedField === 'prompt' ? <><Check className="w-3 h-3" /> 已复制</> : <><Copy className="w-3 h-3" /> 复制</>}
+                    {copiedField === 'example' ? (<><Check className="w-3 h-3" /> 已复制</>) : (<><Copy className="w-3 h-3" /> 复制</>)}
                   </button>
                 </div>
-                <pre className="text-xs text-neutral-600 bg-neutral-100 rounded-lg p-3 whitespace-pre-wrap leading-relaxed font-mono">
-                  {skillPrompt}
-                </pre>
+                <p className="text-sm text-neutral-700 leading-relaxed font-mono">{examplePrompt}</p>
               </div>
 
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction asChild>
-              <a
-                href={clawhubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-colors"
-                style={{ backgroundColor: color, color: '#fff' }}
-              >
-                打开 ClawHub 使用
-              </a>
-            </AlertDialogAction>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <a
+              href={clawhubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-white transition-colors"
+              style={{ backgroundColor: color }}
+            >
+              在 ClawHub 打开
+            </a>
+            <button
+              onClick={() => copyToClipboard(skillPrompt, 'prompt')}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium border border-neutral-300 hover:bg-neutral-50 transition-colors"
+            >
+              <Copy className="w-3 h-3" />
+              {copiedField === 'prompt' ? '已复制完整模板' : '复制完整 prompt'}
+            </button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

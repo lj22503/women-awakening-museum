@@ -37,16 +37,16 @@ export function DataWall() {
             <StaggerItem key={stat.label}>
               <div className="text-center">
                 {/* Number */}
-                <div className="font-display text-5xl md:text-6xl lg:text-7xl text-[#242422] mb-4">
+                <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-[#242422] mb-4">
                   <AnimatedCounter 
                     value={stat.value} 
                     suffix={stat.suffix}
                     duration={2}
                   />
-                </div>
+                </h2>
                 
                 {/* Label */}
-                <h3 className="font-display text-xl text-[#242422] mb-2">
+                <h3 className="font-serif text-xl text-[#242422] mb-2">
                   {stat.label}
                 </h3>
                 
