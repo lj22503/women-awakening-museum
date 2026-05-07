@@ -190,37 +190,41 @@ export function ProblemRadar() {
         onClose={() => setSelectedProblem(null)} 
       />
 
-      {/* Role Model Modal */}
+      {/* Role Model Modal — uses dark design system tokens */}
       {selectedModel && (
-        <div 
-          className="fixed inset-0 z-50 bg-[#242422]/80 backdrop-blur-sm flex items-center justify-center p-4"
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
           onClick={() => setSelectedModel(null)}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-[#fdfaf7] rounded-2xl p-8 max-w-md w-full"
+            transition={{ duration: 0.3, ease: [0.165, 0.84, 0.44, 1] }}
+            className="bg-popover rounded-xl p-8 max-w-md w-full border border-border"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden">
-                <img 
-                  src={selectedModel.image} 
+              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-border">
+                <img
+                  src={selectedModel.image}
                   alt={selectedModel.name}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
                 />
               </div>
               <div>
-                <h3 className="font-serif text-2xl text-[#242422]">{selectedModel.name}</h3>
-                <p className="text-[#969188]">{selectedModel.title}</p>
-                <span className="inline-block mt-2 px-3 py-1 bg-[#f5f3ef] rounded-full text-xs text-[#969188]">
+                <h3 className="font-serif text-2xl text-foreground">{selectedModel.name}</h3>
+                <p className="text-muted-foreground text-sm">{selectedModel.title}</p>
+                <span className="inline-block mt-2 px-3 py-1 bg-secondary/20 rounded-full text-xs text-secondary">
                   {selectedModel.category}
                 </span>
               </div>
             </div>
             <button
               onClick={() => setSelectedModel(null)}
-              className="w-full py-3 bg-[#242422] text-[#f5f3ef] rounded-full hover:bg-[#3a3a38] transition-colors"
+              className="w-full py-3 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/90 transition-colors"
             >
               关闭
             </button>

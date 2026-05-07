@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, useInView, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 interface AnimatedCounterProps {
   value: number;
@@ -9,9 +9,9 @@ interface AnimatedCounterProps {
   duration?: number;
 }
 
-export function AnimatedCounter({ 
-  value, 
-  suffix = '', 
+export function AnimatedCounter({
+  value,
+  suffix = '',
   prefix = '',
   className = '',
   duration = 2
@@ -19,26 +19,42 @@ export function AnimatedCounter({
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [displayValue, setDisplayValue] = useState(0);
-  
-  const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, {
-    damping: 50,
-    stiffness: 100,
-    duration: duration * 1000
-  });
+  const animationRef = useRef<number | null>(null);
+  const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
-    if (isInView) {
-      motionValue.set(value);
-    }
-  }, [isInView, value, motionValue]);
+    if (!isInView || hasAnimatedRef.current) return;
+    hasAnimatedRef.current = true;
 
-  useEffect(() => {
-    const unsubscribe = springValue.on('change', (latest) => {
-      setDisplayValue(Math.round(latest));
-    });
-    return unsubscribe;
-  }, [springValue]);
+    const startTime = performance.now();
+    const startValue = 0;
+    const endValue = value;
+    const totalDuration = duration * 1000;
+
+    // easeOutQuart: fast start, slow end
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / totalDuration, 1);
+      const easedProgress = easeOutQuart(progress);
+      const currentValue = startValue + (endValue - startValue) * easedProgress;
+
+      setDisplayValue(Math.round(currentValue));
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [isInView, value, duration]);
 
   return (
     <motion.span

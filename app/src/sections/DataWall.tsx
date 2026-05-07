@@ -30,28 +30,28 @@ const stats = [
 
 export function DataWall() {
   return (
-    <section className="py-24 md:py-32 bg-[#fdfaf7]">
+    <section className="py-24 md:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat) => (
             <StaggerItem key={stat.label}>
               <div className="text-center">
-                {/* Number */}
-                <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-[#242422] mb-4">
-                  <AnimatedCounter 
-                    value={stat.value} 
+                {/* Number — font-serif (Newsreader) for consistency with headings */}
+                <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl text-foreground mb-4">
+                  <AnimatedCounter
+                    value={stat.value}
                     suffix={stat.suffix}
                     duration={2}
                   />
                 </h2>
-                
+
                 {/* Label */}
-                <h3 className="font-serif text-xl text-[#242422] mb-2">
+                <h3 className="font-serif text-xl text-foreground mb-2">
                   {stat.label}
                 </h3>
-                
+
                 {/* Description */}
-                <p className="text-[#969188] text-sm">
+                <p className="text-muted-foreground text-sm">
                   {stat.description}
                 </p>
               </div>
