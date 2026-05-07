@@ -197,9 +197,10 @@ export function MBTIGallery() {
                   onClick={() => handleTypeClick(index)}
                   className={`relative w-12 h-12 rounded-xl flex flex-col items-center justify-center transition-all duration-300 ${
                     isActive
-                      ? 'bg-secondary text-primary shadow-lg'
-                      : 'bg-white/10 text-white/60 hover:bg-white/20'
+                      ? 'bg-white text-neutral-900 shadow-lg'
+                      : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white/80'
                   }`}
+                  style={isActive ? { boxShadow: `0 0 0 2px ${pColor}` } : undefined}
                 >
                   <span className="font-display text-sm font-bold">{p.type}</span>
                   {isActive && (
@@ -305,10 +306,18 @@ export function MBTIGallery() {
                                 const target = e.target as HTMLImageElement;
                                 target.style.display = 'none';
                               }}
+                              onLoad={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                const parent = target.parentElement;
+                                if (parent) {
+                                  const fallback = parent.querySelector('.avatar-fallback') as HTMLElement | null;
+                                  if (fallback) fallback.style.display = 'none';
+                                }
+                              }}
                             />
                           ) : null}
                           {/* 如果没有图片或加载失败，显示首字母 */}
-                          <div className="w-full h-full flex items-center justify-center bg-secondary">
+                          <div className="avatar-fallback w-full h-full flex items-center justify-center bg-secondary">
                             <span className="text-white font-display text-3xl">{woman.name.charAt(0)}</span>
                           </div>
                         </div>
@@ -455,10 +464,18 @@ export function MBTIGallery() {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
                           }}
+                          onLoad={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            const parent = target.parentElement;
+                            if (parent) {
+                              const fallback = parent.querySelector('.avatar-fallback') as HTMLElement | null;
+                              if (fallback) fallback.style.display = 'none';
+                            }
+                          }}
                         />
                       ) : null}
-                      <div 
-                        className="w-full h-full flex items-center justify-center"
+                      <div
+                        className="avatar-fallback w-full h-full flex items-center justify-center"
                         style={{ backgroundColor: color }}
                       >
                         <span className="text-white font-display text-4xl">{selectedWoman.name.charAt(0)}</span>

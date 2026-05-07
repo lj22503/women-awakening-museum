@@ -51,9 +51,18 @@ function WomanDetail({ woman, onClose }: WomanDetailProps) {
                       parent.style.justifyContent = 'center';
                       parent.style.backgroundColor = '#C9B037';
                       const span = document.createElement('span');
-                      span.className = 'text-white font-display text-3xl';
+                      span.className = 'text-white font-display text-3xl fallback-initial';
                       span.textContent = woman.name.charAt(0);
                       parent.appendChild(span);
+                    }
+                  }}
+                  onLoad={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    const parent = target.parentElement;
+                    if (parent) {
+                      // hide any fallback initial that might exist
+                      const fallback = parent.querySelector('.fallback-initial') as HTMLElement | null;
+                      if (fallback) fallback.style.display = 'none';
                     }
                   }}
                 />
@@ -195,7 +204,7 @@ export default function ExhibitionHalls() {
                 className={`flex-shrink-0 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                   activeHall === index
                     ? 'text-white'
-                    : 'bg-white/10 text-white/50 hover:bg-white/20 hover:text-white/70'
+                    : 'bg-white/5 text-white/70 hover:bg-white/15 hover:text-white border border-white/10'
                 }`}
                 style={{
                   backgroundColor:
@@ -245,7 +254,7 @@ export default function ExhibitionHalls() {
                         background: `linear-gradient(135deg, ${HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037'}33 0%, ${HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037'}11 100%)`,
                       }}
                     >
-                      <div className="absolute top-4 right-4 w-20 h-20 rounded-full overflow-hidden border-2 border-white/30 bg-white/10">
+                      <div className="absolute top-4 right-4 w-24 h-24 rounded-full overflow-hidden border-2 border-white/30 bg-white/10">
                         {woman.image ? (
                           <img
                             src={`/images/${woman.image.split('/').pop()}`}
@@ -261,7 +270,7 @@ export default function ExhibitionHalls() {
                                 parent.style.justifyContent = 'center';
                                 parent.style.backgroundColor = HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037';
                                 const span = document.createElement('span');
-                                span.className = 'text-white font-display text-2xl';
+                                span.className = 'text-white font-display text-3xl';
                                 span.textContent = woman.name.charAt(0);
                                 parent.appendChild(span);
                               }
@@ -272,7 +281,7 @@ export default function ExhibitionHalls() {
                             className="w-full h-full flex items-center justify-center"
                             style={{ backgroundColor: HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037' }}
                           >
-                            <span className="text-white font-display text-2xl">{woman.name.charAt(0)}</span>
+                            <span className="text-white font-display text-3xl">{woman.name.charAt(0)}</span>
                           </div>
                         )}
                       </div>

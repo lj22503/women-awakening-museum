@@ -85,18 +85,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8, ease: [0.165, 0.84, 0.44, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3"
           >
             <Button
               onClick={scrollToContent}
-              className="bg-secondary text-primary rounded-full px-8 py-3 font-medium hover:bg-secondary/90 transition-all duration-300"
+              className="bg-secondary text-primary rounded-full px-10 py-4 text-base font-medium hover:bg-secondary/90 transition-all duration-300 shadow-lg shadow-secondary/20 w-full sm:w-auto justify-center"
             >
               开启探索之旅
             </Button>
             <Button
               variant="outline"
               onClick={() => setIsTestOpen(true)}
-              className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
+              className="border border-white/20 text-white/80 rounded-full px-8 py-3 font-medium hover:bg-white/10 hover:text-white hover:border-white/30 transition-all duration-300 text-sm w-full sm:w-auto justify-center"
             >
               测测你的 MBTI
             </Button>
@@ -110,7 +110,7 @@ export function Hero() {
                   setIsTestOpen(true);
                 }
               }}
-              className="border border-secondary/30 text-secondary rounded-full px-8 py-3 font-medium hover:bg-secondary/10 transition-all duration-300"
+              className="border border-white/20 text-white/60 rounded-full px-8 py-3 font-medium hover:bg-white/10 hover:text-white hover:border-white/30 transition-all duration-300 text-sm w-full sm:w-auto justify-center"
             >
               你适合怎样的榜样
             </Button>

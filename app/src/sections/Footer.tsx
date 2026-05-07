@@ -16,15 +16,15 @@ export function Footer() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      className="bg-[#1a1a1a] text-white/70 py-12"
+      className="bg-[#111110] text-white/60 py-16 border-t border-white/5"
     >
       <div className="max-w-7xl mx-auto px-6">
         {/* 合作引导 */}
-        <div className="text-center mb-8">
-          <h3 className="font-serif text-2xl text-champagne mb-4">
+        <div className="text-center mb-12">
+          <h3 className="font-serif text-2xl text-white mb-4">
             一起让女性觉醒被更多人看见
           </h3>
-          <p className="mb-6 max-w-2xl mx-auto">
+          <p className="mb-8 max-w-2xl mx-auto text-white/50">
             这是一个开放的公益项目，期待与你一起探索女性成长的可能性。
             如果你有好的想法、资源或建议，欢迎联系我们。
           </p>

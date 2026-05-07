@@ -68,11 +68,13 @@ export function ProblemRadar() {
             </p>
           </FadeInSection>
 
-          {/* 问题卡片网格 - 每行3个 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 问题卡片网格 - 交错排列增加扫描节奏 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {problems.map((problem, index) => {
               const colors = categoryColors[problem.category];
               const detail = problemDetails[problem.id];
+              // 交错布局：让第2、5、8张卡片略高，增加扫描节奏感
+              const isTall = index === 1 || index === 4 || index === 7;
               return (
                 <motion.div
                   key={problem.id}
@@ -81,7 +83,7 @@ export function ProblemRadar() {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   onClick={() => setSelectedProblem(problem.id)}
-                  className="bg-white/5 hover:bg-white/10 rounded-xl p-6 cursor-pointer transition-all duration-300 border border-white/10"
+                  className={`bg-white/5 hover:bg-white/10 rounded-xl p-6 cursor-pointer transition-all duration-300 border border-white/10 ${isTall ? 'lg:row-span-2' : ''}`}
                 >
                   {/* 分类标签 */}
                   <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${colors.bg} mb-4`}>
