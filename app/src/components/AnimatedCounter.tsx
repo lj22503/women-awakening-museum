@@ -18,13 +18,16 @@ export function AnimatedCounter({
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [displayValue, setDisplayValue] = useState(0);
+  // 初始值设为终值（用户立即看到数字），动画从0开始跑
+  const [displayValue, setDisplayValue] = useState(value);
   const animationRef = useRef<number | null>(null);
   const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
     if (!isInView || hasAnimatedRef.current) return;
     hasAnimatedRef.current = true;
+    // 重置为0，开始从0→终值的动画
+    setDisplayValue(0);
 
     const startTime = performance.now();
     const startValue = 0;
