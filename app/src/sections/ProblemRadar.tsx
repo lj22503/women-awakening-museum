@@ -1,311 +1,238 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FadeInSection } from '@/components/FadeInSection';
 import { ProblemDetail } from '@/components/ProblemDetail';
 import { problems } from '@/data/problems';
 import { problemDetails } from '@/data/problemDetail';
-import {
-  Search, Heart, Brain, BookOpen, ShoppingBag,
-  Activity, Compass, Scale, Sparkles, ChevronRight,
-  ArrowRight
-} from 'lucide-react';
+import { Search, Heart, Brain, BookOpen, ShoppingBag, Activity, Compass, Scale, ChevronRight, Sparkles } from 'lucide-react';
 
-// ─── Category Config ───────────────────────────────────────────────────────────
-const CATEGORIES = [
-  { name: '自我认知', icon: <Search className="w-4 h-4" />, color: '#8B3A3A', bg: 'bg-burgundy', text: 'text-burgundy' },
-  { name: '经济独立', icon: <Scale className="w-4 h-4" />, color: '#C9A96E', bg: 'bg-champagne', text: 'text-champagne' },
-  { name: '权利觉醒', icon: <Heart className="w-4 h-4" />, color: '#5C7A5C', bg: 'bg-moss', text: 'text-moss' },
-  { name: '情感边界', icon: <Brain className="w-4 h-4" />, color: '#8B3A3A', bg: 'bg-burgundy', text: 'text-burgundy' },
-  { name: '教育成长', icon: <BookOpen className="w-4 h-4" />, color: '#C9A96E', bg: 'bg-champagne', text: 'text-champagne' },
-  { name: '消费觉醒', icon: <ShoppingBag className="w-4 h-4" />, color: '#5C7A5C', bg: 'bg-moss', text: 'text-moss' },
-  { name: '身心健康', icon: <Activity className="w-4 h-4" />, color: '#8B3A3A', bg: 'bg-burgundy', text: 'text-burgundy' },
-  { name: '生命意义', icon: <Compass className="w-4 h-4" />, color: '#C9A96E', bg: 'bg-champagne', text: 'text-champagne' },
+const categoryIcons: Record<string, React.ReactNode> = {
+  "自我认知": <Search className="w-5 h-5" />,
+  "经济独立": <Scale className="w-5 h-5" />,
+  "权利觉醒": <Heart className="w-5 h-5" />,
+  "情感边界": <Brain className="w-5 h-5" />,
+  "教育成长": <BookOpen className="w-5 h-5" />,
+  "消费觉醒": <ShoppingBag className="w-5 h-5" />,
+  "身心健康": <Activity className="w-5 h-5" />,
+  "生命意义": <Compass className="w-5 h-5" />
+};
+
+const categoryColors: Record<string, { bg: string; light: string; text: string }> = {
+  "自我认知": { bg: "bg-burgundy/30", light: "bg-burgundy/10", text: "text-burgundy" },
+  "经济独立": { bg: "bg-champagne/30", light: "bg-champagne/10", text: "text-champagne" },
+  "权利觉醒": { bg: "bg-moss/30", light: "bg-moss/10", text: "text-moss" },
+  "情感边界": { bg: "bg-burgundy/30", light: "bg-burgundy/10", text: "text-burgundy" },
+  "教育成长": { bg: "bg-champagne/30", light: "bg-champagne/10", text: "text-champagne" },
+  "消费觉醒": { bg: "bg-moss/30", light: "bg-moss/10", text: "text-moss" },
+  "身心健康": { bg: "bg-burgundy/30", light: "bg-burgundy/10", text: "text-burgundy" },
+  "生命意义": { bg: "bg-champagne/30", light: "bg-champagne/10", text: "text-champagne" }
+};
+
+// 榜样人物数据
+const roleModels = [
+  { name: "王潇", title: "趁早品牌创始人", category: "体系构建者", color: "bg-burgundy", image: "/images/wangxiao.jpg" },
+  { name: "崔璀", title: "优势管理导师", category: "体系构建者", color: "bg-burgundy", image: "/images/cuicui.jpg" },
+  { name: "上野千鹤子", title: "女性主义学者", category: "文化洞察者", color: "bg-champagne", image: "/images/ueno.jpg" },
+  { name: "李飞飞", title: "AI科学家", category: "领域破壁者", color: "bg-moss", image: "/images/lifeifei.jpg" },
+  { name: "梅耶·马斯克", title: "模特、营养师", category: "行动启发者", color: "bg-champagne", image: "/images/mayemusk.jpg" },
+  { name: "塔拉·韦斯特弗", title: "历史学家", category: "行动启发者", color: "bg-champagne", image: "/images/tarawestover.jpg" },
+  { name: "Greta Thunberg", title: "环保活动家", category: "新生代思想者", color: "bg-moss", image: "/images/gretathunberg.jpg" },
+  { name: "Amanda Gorman", title: "诗人", category: "新生代思想者", color: "bg-moss", image: "/images/amandagorman.jpg" },
 ];
 
-// Map category name → config
-const CAT_MAP = Object.fromEntries(CATEGORIES.map(c => [c.name, c]));
-
-// ─── Problem Card ─────────────────────────────────────────────────────────────
-interface ProblemCardProps {
-  problem: typeof problems[0];
-  index: number;
-  onClick: () => void;
-}
-
-function ProblemCard({ problem, index, onClick }: ProblemCardProps) {
-  const cat = CAT_MAP[problem.category];
-  const detail = problemDetails[problem.id];
-  const num = String(index + 1).padStart(2, '0');
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.07, duration: 0.5, ease: [0.165, 0.84, 0.44, 1] }}
-      viewport={{ once: true, margin: '-60px' }}
-      onClick={onClick}
-      className="group relative cursor-pointer"
-    >
-      {/* Hover reveal line */}
-      <motion.div
-        className="absolute -left-3 top-0 bottom-0 w-0.5 rounded-full"
-        style={{ backgroundColor: cat.color }}
-        initial={{ scaleY: 0, originY: 0 }}
-        whileHover={{ scaleY: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      <div className="bg-white/[0.04] hover:bg-white/[0.08] rounded-2xl p-5 border border-white/[0.08] hover:border-white/[0.15] transition-all duration-300">
-        {/* Header row: number + category tag */}
-        <div className="flex items-center justify-between mb-4">
-          <span className="font-serif text-3xl font-bold text-white/20 group-hover:text-white/40 transition-colors">
-            {num}
-          </span>
-          <div
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"
-            style={{ backgroundColor: cat.color + '22', color: cat.color }}
-          >
-            {cat.icon}
-            <span>{problem.category}</span>
-          </div>
-        </div>
-
-        {/* Question — large, serif, readable */}
-        <h3 className="font-serif text-lg text-white leading-snug mb-3 group-hover:text-white/90 transition-colors">
-          {problem.question}
-        </h3>
-
-        {/* Core essence teaser — revealed on hover */}
-        {detail && (
-          <p className="text-sm text-white/40 leading-relaxed line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            {detail.coreEssence}
-          </p>
-        )}
-
-        {/* Related MBTI types */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            {problem.relatedTypes.slice(0, 3).map(type => (
-              <span key={type} className="text-xs text-white/30 font-mono">{type}</span>
-            ))}
-          </div>
-          <div className="flex items-center gap-1.5 text-secondary text-xs font-medium group-hover:gap-2.5 transition-all">
-            <span>深入探索</span>
-            <ArrowRight className="w-3 h-3" />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── Main Section ─────────────────────────────────────────────────────────────
 export function ProblemRadar() {
   const [selectedProblem, setSelectedProblem] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
-  const filtered = activeCategory
-    ? problems.filter(p => p.category === activeCategory)
-    : problems;
+  const [selectedModel, setSelectedModel] = useState<typeof roleModels[0] | null>(null);
 
   return (
     <>
-      <section id="problem-radar" className="py-24 bg-background">
-
-        {/* ── Section Header ── */}
-        <div className="max-w-7xl mx-auto px-6 mb-16">
+      <section id="problem-radar" className="py-20 bg-background">
+        {/* 模块一：问题探索 - 网格展示 */}
+        <div className="max-w-7xl mx-auto px-6 mb-20">
           <FadeInSection>
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-white/[0.07] flex items-center justify-center flex-shrink-0 mt-1">
-                <Search className="w-6 h-6 text-white/60" />
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                <Search className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="font-label text-xs tracking-[0.2em] uppercase text-white/40 block mb-2">
+                <span className="text-xs tracking-widest uppercase text-white/60">
                   问题探索
                 </span>
-                <h2 className="font-serif text-4xl md:text-5xl text-white mb-3">
-                  你的困惑，<br />
-                  <span className="text-champagne">早有答案</span>
+                <h2 className="font-serif text-3xl text-white">
+                  你正在寻找什么答案？
                 </h2>
-                <p className="text-white/50 text-base max-w-lg leading-relaxed">
-                  8 个女性成长核心议题，每一个都有深度拆解——
-                  从表象问题到本质洞察，再到可执行的改变路径。
-                </p>
+              </div>
+            </div>
+            <p className="text-white/60 max-w-xl mb-8">
+              点击深入了解每个问题的本质与解法
+            </p>
+          </FadeInSection>
+
+          {/* 问题卡片网格 - 交错排列增加扫描节奏 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {problems.map((problem, index) => {
+              const colors = categoryColors[problem.category];
+              const detail = problemDetails[problem.id];
+              // 交错布局：让第2、5、8张卡片略高，增加扫描节奏感
+              const isTall = index === 1 || index === 4 || index === 7;
+              return (
+                <motion.div
+                  key={problem.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  onClick={() => setSelectedProblem(problem.id)}
+                  className={`bg-white/5 hover:bg-white/10 rounded-xl p-6 cursor-pointer transition-all duration-300 border border-white/10 ${isTall ? 'lg:row-span-2' : ''}`}
+                >
+                  {/* 分类标签 */}
+                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${colors.bg} mb-4`}>
+                    <span className={colors.text}>{categoryIcons[problem.category]}</span>
+                    <span className={`font-label text-xs tracking-wider uppercase ${colors.text}`}>
+                      {problem.category}
+                    </span>
+                  </div>
+
+                  {/* 问题 */}
+                  <h3 className="font-serif text-lg text-white font-medium mb-4 leading-snug">
+                    {problem.question}
+                  </h3>
+
+                  {/* 核心本质预览 */}
+                  {detail && (
+                    <p className="text-sm text-white/60 mt-2 leading-relaxed line-clamp-3 mb-4">
+                      {detail.coreEssence}
+                    </p>
+                  )}
+
+                  {/* 查看详情 */}
+                  <div className="group flex items-center gap-2 text-secondary text-xs hover:underline cursor-pointer">
+                    <span>寻找答案</span>
+                    <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 模块二：榜样人物 - 大模块展示 */}
+        <div className="max-w-7xl mx-auto px-6">
+          <FadeInSection>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <span className="text-xs tracking-widest uppercase text-white/60">
+                  榜样人物
+                </span>
+                <h2 className="font-serif text-3xl text-white">
+                  找到你的觉醒向导
+                </h2>
               </div>
             </div>
           </FadeInSection>
 
-          {/* ── Category Filter Tabs ── */}
-          <FadeInSection delay={0.1}>
-            <div className="flex flex-wrap gap-2 mt-8">
-              <button
-                onClick={() => setActiveCategory(null)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeCategory === null
-                    ? 'bg-white text-neutral-900 shadow-lg'
-                    : 'bg-white/[0.07] text-white/50 hover:bg-white/[0.12] hover:text-white/70'
-                }`}
+          {/* 榜样人物网格 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {roleModels.map((model, index) => (
+              <motion.div
+                key={model.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -4 }}
+                onClick={() => setSelectedModel(model)}
+                className="group relative overflow-hidden rounded-xl cursor-pointer bg-neutral-900"
               >
-                全部 8 个
-              </button>
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat.name}
-                  onClick={() => setActiveCategory(cat.name === activeCategory ? null : cat.name)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                    activeCategory === cat.name
-                      ? 'text-white shadow-lg'
-                      : 'bg-white/[0.07] text-white/50 hover:bg-white/[0.12] hover:text-white/70'
-                  }`}
-                  style={{
-                    backgroundColor: activeCategory === cat.name ? cat.color : undefined,
-                  }}
-                >
-                  {cat.icon}
-                  <span>{cat.name}</span>
-                </button>
-              ))}
-            </div>
-          </FadeInSection>
-        </div>
+                {/* 色带 */}
+                <div className={`${model.color} h-8 transition-all duration-300 group-hover:h-12 rounded-t-xl`} />
+                {/* 头像 */}
+                <div className="relative z-10 -mt-10 mx-auto w-20 h-20 rounded-full border-4 border-neutral-900 overflow-hidden transition-all duration-300 group-hover:grayscale-0 grayscale">
+                  <img
+                    src={model.image}
+                    alt={model.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+                {/* 内容 */}
+                <div className="p-4 text-center">
+                  <h3 className="font-serif text-xl text-white">{model.name}</h3>
+                  <p className="text-xs text-white/50 uppercase tracking-wider mt-1">{model.title}</p>
+                  <div className="inline-flex items-center justify-center mt-3 bg-white/10 rounded-full px-3 py-1">
+                    <span className="text-xs text-white">{model.category}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
 
-        {/* ── Problem Grid — 2 columns, staggered ── */}
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory ?? 'all'}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          {/* 查看更多按钮 */}
+          <div className="text-center mt-8">
+            <button
+              onClick={() => document.getElementById('mbti-gallery')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-primary rounded-full hover:bg-secondary/90 transition-colors"
             >
-              {filtered.map((problem) => (
-                <ProblemCard
-                  key={problem.id}
-                  problem={problem}
-                  index={problems.indexOf(problem)}
-                  onClick={() => setSelectedProblem(problem.id)}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Empty state */}
-          {filtered.length === 0 && (
-            <div className="text-center py-20 text-white/40">
-              <p>该分类下暂无问题</p>
-            </div>
-          )}
-
-          {/* Bottom hint */}
-          <FadeInSection delay={0.2}>
-            <div className="mt-12 flex items-center justify-center gap-3 text-white/30 text-sm">
-              <div className="w-8 h-px bg-white/20" />
-              <span>点击卡片深入探索问题的本质与解法</span>
-              <div className="w-8 h-px bg-white/20" />
-            </div>
-          </FadeInSection>
+              <span>查看全部100+榜样</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
-
-        {/* ── Divider ── */}
-        <div className="max-w-7xl mx-auto px-6 my-24">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
-
-        {/* ── Role Models Section ── */}
-        <RoleModelsSection />
       </section>
 
-      {/* ── Problem Detail Modal ── */}
-      <ProblemDetail
-        problemId={selectedProblem}
-        isOpen={!!selectedProblem}
-        onClose={() => setSelectedProblem(null)}
+      {/* Problem Detail Modal */}
+      <ProblemDetail 
+        problemId={selectedProblem} 
+        isOpen={!!selectedProblem} 
+        onClose={() => setSelectedProblem(null)} 
       />
-    </>
-  );
-}
 
-// ─── Role Models Sub-section ──────────────────────────────────────────────────
-const roleModels = [
-  { name: '王潇', title: '趁早品牌创始人', category: '体系构建者', color: 'bg-burgundy', image: '/images/wangxiao.jpg' },
-  { name: '崔璀', title: '优势管理导师', category: '体系构建者', color: 'bg-burgundy', image: '/images/cuicui.jpg' },
-  { name: '上野千鹤子', title: '女性主义学者', category: '文化洞察者', color: 'bg-champagne', image: '/images/ueno.jpg' },
-  { name: '李飞飞', title: 'AI科学家', category: '领域破壁者', color: 'bg-moss', image: '/images/lifeifei.jpg' },
-  { name: '梅耶·马斯克', title: '模特、营养师', category: '行动启发者', color: 'bg-champagne', image: '/images/mayemusk.jpg' },
-  { name: '塔拉·韦斯特弗', title: '历史学家', category: '行动启发者', color: 'bg-champagne', image: '/images/tarawestover.jpg' },
-  { name: 'Greta Thunberg', title: '环保活动家', category: '新生代思想者', color: 'bg-moss', image: '/images/gretathunberg.jpg' },
-  { name: 'Amanda Gorman', title: '诗人', category: '新生代思想者', color: 'bg-moss', image: '/images/amandagorman.jpg' },
-];
-
-function RoleModelsSection() {
-  return (
-    <div className="max-w-7xl mx-auto px-6">
-      <FadeInSection>
-        <div className="flex items-start gap-4 mb-10">
-          <div className="w-12 h-12 rounded-xl bg-white/[0.07] flex items-center justify-center flex-shrink-0 mt-1">
-            <Sparkles className="w-6 h-6 text-champagne" />
-          </div>
-          <div>
-            <span className="font-label text-xs tracking-[0.2em] uppercase text-white/40 block mb-2">
-              榜样人物
-            </span>
-            <h2 className="font-serif text-3xl text-white">
-              找到你的觉醒向导
-            </h2>
-          </div>
-        </div>
-      </FadeInSection>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {roleModels.map((model, index) => (
+      {/* Role Model Modal — uses dark design system tokens */}
+      {selectedModel && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setSelectedModel(null)}
+        >
           <motion.div
-            key={model.name}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -6, scale: 1.02 }}
-            className="group relative overflow-hidden rounded-2xl cursor-pointer bg-neutral-900 border border-white/[0.06] hover:border-white/[0.15] transition-all duration-300"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: [0.165, 0.84, 0.44, 1] }}
+            className="bg-popover rounded-xl p-8 max-w-md w-full border border-border"
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Color band */}
-            <div className={`${model.color} h-10 transition-all duration-300 group-hover:h-16`} />
-
-            {/* Avatar */}
-            <div className="relative z-10 -mt-12 mx-auto w-20 h-20 rounded-full border-4 border-neutral-900 overflow-hidden">
-              <img
-                src={model.image}
-                alt={model.name}
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
-            </div>
-
-            {/* Info */}
-            <div className="p-4 text-center">
-              <h3 className="font-serif text-lg text-white">{model.name}</h3>
-              <p className="text-xs text-white/40 uppercase tracking-wider mt-0.5">{model.title}</p>
-              <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full bg-white/[0.07]">
-                <span className="text-xs text-white/60">{model.category}</span>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-border">
+                <img
+                  src={selectedModel.image}
+                  alt={selectedModel.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              </div>
+              <div>
+                <h3 className="font-serif text-2xl text-foreground">{selectedModel.name}</h3>
+                <p className="text-muted-foreground text-sm">{selectedModel.title}</p>
+                <span className="inline-block mt-2 px-3 py-1 bg-secondary/20 rounded-full text-xs text-secondary">
+                  {selectedModel.category}
+                </span>
               </div>
             </div>
+            <button
+              onClick={() => setSelectedModel(null)}
+              className="w-full py-3 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/90 transition-colors"
+            >
+              关闭
+            </button>
           </motion.div>
-        ))}
-      </div>
-
-      {/* CTA */}
-      <div className="text-center mt-10">
-        <button
-          onClick={() => document.getElementById('mbti-gallery')?.scrollIntoView({ behavior: 'smooth' })}
-          className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-secondary text-primary rounded-full text-sm font-medium hover:bg-secondary/90 transition-colors shadow-lg shadow-secondary/20"
-        >
-          <span>查看全部 100+ 榜样</span>
-          <ChevronRight className="w-4 h-4" />
-        </button>
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
