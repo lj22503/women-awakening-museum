@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { problemDetails, type ProblemDetail } from '@/data/problemDetail';
+import { getAllWomen } from '@/data/allPersonalities';
 import { Button } from '@/components/ui/button';
 import { X, ChevronRight, BookOpen, Target, AlertTriangle, Lightbulb, Calendar, Search, Eye, Link2, Brain, Star, User } from 'lucide-react';
 
@@ -339,24 +340,63 @@ export function ProblemDetail({ problemId, isOpen, onClose }: ProblemDetailProps
             </div>
           </Section>
 
-          {/* Women Role Models */}
+          {/* Women Role Models — enriched from allPersonalities */}
           <Section icon={User} title="榜样人物" delay={0.9}>
             <div className="grid md:grid-cols-3 gap-4">
-              {detail.women.map((woman, i) => (
-                <div key={i} className="bg-[#f5f3ef] rounded-xl p-6">
-                  <div className="w-12 h-12 rounded-full bg-[#242422] flex items-center justify-center mb-4">
-                    <span className="text-[#f5f3ef] font-display text-lg">
-                      {woman.name.charAt(0)}
-                    </span>
+              {detail.women.map((woman, i) => {
+                // 从 allPersonalities 匹配完整人物数据
+                const allWomen = getAllWomen();
+                const enriched = allWomen.find(w => w.name === woman.name);
+                const imageSrc = enriched?.image || woman.image;
+                const introduction = enriched?.introduction || woman.methodology;
+                const works = enriched?.works || (woman.work ? [woman.work] : []);
+                const quote = enriched?.quote;
+
+                return (
+                  <div key={i} className="bg-[#f5f3ef] rounded-xl p-6">
+                    {/* 头像 */}
+                    <div className="w-12 h-12 rounded-full bg-[#242422] flex items-center justify-center mb-4 overflow-hidden">
+                      {imageSrc && imageSrc !== '/images/default.jpg' ? (
+                        <img
+                          src={imageSrc}
+                          alt={woman.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                            const fallback = (e.target as HTMLImageElement).nextElementSibling as HTMLElement;
+                            if (fallback) fallback.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <span
+                        className="text-[#f5f3ef] font-display text-lg"
+                        style={{ display: imageSrc && imageSrc !== '/images/default.jpg' ? 'none' : 'block' }}
+                      >
+                        {woman.name.charAt(0)}
+                      </span>
+                    </div>
+                    <h4 className="font-display text-lg text-[#242422] mb-1">
+                      {woman.name}
+                    </h4>
+                    <p className="text-sm text-[#969188] mb-3">{woman.title}</p>
+                    {introduction && (
+                      <p className="text-sm text-[#242422] mb-2 leading-relaxed line-clamp-3">
+                        {introduction}
+                      </p>
+                    )}
+                    {works.length > 0 && (
+                      <p className="text-xs text-[#969188] mb-2">
+                        {works.join('、')}
+                      </p>
+                    )}
+                    {quote && (
+                      <p className="text-xs text-[#969188] italic border-l-2 border-[#e0ddd5] pl-2 mt-2">
+                        "{quote}"
+                      </p>
+                    )}
                   </div>
-                  <h4 className="font-display text-lg text-[#242422] mb-1">
-                    {woman.name}
-                  </h4>
-                  <p className="text-sm text-[#969188] mb-3">{woman.title}</p>
-                  <p className="text-sm text-[#242422] mb-2">{woman.methodology}</p>
-                  <p className="text-xs text-[#969188]">{woman.work}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </Section>
 

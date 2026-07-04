@@ -4,7 +4,7 @@ import { FadeInSection } from '@/components/FadeInSection';
 import { ProblemDetail } from '@/components/ProblemDetail';
 import { problems } from '@/data/problems';
 import { problemDetails } from '@/data/problemDetail';
-import { Search, Heart, Brain, BookOpen, ShoppingBag, Activity, Compass, Scale, ChevronRight, Sparkles } from 'lucide-react';
+import { Search, Heart, Brain, BookOpen, ShoppingBag, Activity, Compass, Scale, ChevronRight } from 'lucide-react';
 
 const categoryIcons: Record<string, React.ReactNode> = {
   "自我认知": <Search className="w-5 h-5" />,
@@ -28,21 +28,11 @@ const categoryColors: Record<string, { bg: string; light: string; text: string }
   "生命意义": { bg: "bg-champagne/30", light: "bg-champagne/10", text: "text-champagne" }
 };
 
-// 榜样人物数据
-const roleModels = [
-  { name: "王潇", title: "趁早品牌创始人", category: "体系构建者", color: "bg-burgundy", image: "/images/wangxiao.jpg" },
-  { name: "崔璀", title: "优势管理导师", category: "体系构建者", color: "bg-burgundy", image: "/images/cuicui.jpg" },
-  { name: "上野千鹤子", title: "女性主义学者", category: "文化洞察者", color: "bg-champagne", image: "/images/ueno.jpg" },
-  { name: "李飞飞", title: "AI科学家", category: "领域破壁者", color: "bg-moss", image: "/images/lifeifei.jpg" },
-  { name: "梅耶·马斯克", title: "模特、营养师", category: "行动启发者", color: "bg-champagne", image: "/images/mayemusk.jpg" },
-  { name: "塔拉·韦斯特弗", title: "历史学家", category: "行动启发者", color: "bg-champagne", image: "/images/tarawestover.jpg" },
-  { name: "Greta Thunberg", title: "环保活动家", category: "新生代思想者", color: "bg-moss", image: "/images/gretathunberg.jpg" },
-  { name: "Amanda Gorman", title: "诗人", category: "新生代思想者", color: "bg-moss", image: "/images/amandagorman.jpg" },
-];
+// 榜样人物数据 — 已迁移至 ProblemDetail 组件中动态读取 allPersonalities
+// 人物数据通过 problemDetails[problem.id].women 关联，在弹窗中展示
 
 export function ProblemRadar() {
   const [selectedProblem, setSelectedProblem] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState<typeof roleModels[0] | null>(null);
 
   return (
     <>
@@ -115,74 +105,6 @@ export function ProblemRadar() {
             })}
           </div>
         </div>
-
-        {/* 模块二：榜样人物 - 大模块展示 */}
-        <div className="max-w-7xl mx-auto px-6">
-          <FadeInSection>
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <span className="text-xs tracking-widest uppercase text-white/60">
-                  榜样人物
-                </span>
-                <h2 className="font-serif text-3xl text-white">
-                  找到你的觉醒向导
-                </h2>
-              </div>
-            </div>
-          </FadeInSection>
-
-          {/* 榜样人物网格 */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {roleModels.map((model, index) => (
-              <motion.div
-                key={model.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -4 }}
-                onClick={() => setSelectedModel(model)}
-                className="group relative overflow-hidden rounded-xl cursor-pointer bg-neutral-900"
-              >
-                {/* 色带 */}
-                <div className={`${model.color} h-8 transition-all duration-300 group-hover:h-12 rounded-t-xl`} />
-                {/* 头像 */}
-                <div className="relative z-10 -mt-10 mx-auto w-20 h-20 rounded-full border-4 border-neutral-900 overflow-hidden transition-all duration-300 group-hover:grayscale-0 grayscale">
-                  <img
-                    src={model.image}
-                    alt={model.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                </div>
-                {/* 内容 */}
-                <div className="p-4 text-center">
-                  <h3 className="font-serif text-xl text-white">{model.name}</h3>
-                  <p className="text-xs text-white/50 uppercase tracking-wider mt-1">{model.title}</p>
-                  <div className="inline-flex items-center justify-center mt-3 bg-white/10 rounded-full px-3 py-1">
-                    <span className="text-xs text-white">{model.category}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* 查看更多按钮 */}
-          <div className="text-center mt-8">
-            <button
-              onClick={() => document.getElementById('mbti-gallery')?.scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-primary rounded-full hover:bg-secondary/90 transition-colors"
-            >
-              <span>查看全部100+榜样</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
       </section>
 
       {/* Problem Detail Modal */}
@@ -191,48 +113,6 @@ export function ProblemRadar() {
         isOpen={!!selectedProblem} 
         onClose={() => setSelectedProblem(null)} 
       />
-
-      {/* Role Model Modal — uses dark design system tokens */}
-      {selectedModel && (
-        <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={() => setSelectedModel(null)}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: [0.165, 0.84, 0.44, 1] }}
-            className="bg-popover rounded-xl p-8 max-w-md w-full border border-border"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-border">
-                <img
-                  src={selectedModel.image}
-                  alt={selectedModel.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
-              </div>
-              <div>
-                <h3 className="font-serif text-2xl text-foreground">{selectedModel.name}</h3>
-                <p className="text-muted-foreground text-sm">{selectedModel.title}</p>
-                <span className="inline-block mt-2 px-3 py-1 bg-secondary/20 rounded-full text-xs text-secondary">
-                  {selectedModel.category}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={() => setSelectedModel(null)}
-              className="w-full py-3 bg-secondary text-secondary-foreground rounded-full hover:bg-secondary/90 transition-colors"
-            >
-              关闭
-            </button>
-          </motion.div>
-        </div>
-      )}
     </>
   );
 }

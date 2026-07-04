@@ -486,21 +486,29 @@ export const personalities: Personality[] = [
   }
 ];
 
-// 导入额外的人物数据
+// 导入额外的人物数据（仅用于向后兼容的 deprecated 导出）
 import { additionalPersonalities } from './personalities-additional';
 import { additionalPersonalitiesPart2 } from './personalities-additional-2';
 import { additionalPersonalitiesPart3 } from './personalities-additional-3';
 import { additionalPersonalitiesPart4 } from './personalities-additional-4';
 import { additionalPersonalitiesPart5 } from './personalities-additional-5';
 
-// 合并基础数据和额外数据
+/**
+ * @deprecated 请使用 `@/data/allPersonalities` 中的 `allPersonalities`（PersonalityType[] 类型）
+ * 新版本包含更完整的接口定义（Woman 含 mbtiType、quote、microHabit 等字段）
+ */
 export const allPersonalities: Personality[] = [...personalities, ...additionalPersonalities, ...additionalPersonalitiesPart2, ...additionalPersonalitiesPart3, ...additionalPersonalitiesPart4, ...additionalPersonalitiesPart5];
 
+/**
+ * @deprecated 请使用 `@/data/allPersonalities` 中的 `getPersonalityByType`
+ */
 export const getPersonalityByType = (type: string): Personality | undefined => {
   return allPersonalities.find(p => p.type === type.toUpperCase());
 };
 
-// 导出所有女性榜样（用于搜索等）
+/**
+ * @deprecated 请使用 `@/data/allPersonalities` 中的 `getAllWomen()`（返回 Woman[]，含 mbtiType）
+ */
 export const getAllWomen = () => {
   return allPersonalities.flatMap(p => p.women);
 };

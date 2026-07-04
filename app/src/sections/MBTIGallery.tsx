@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { allPersonalities } from '@/data/personalities';
+import { allPersonalities } from '@/data/allPersonalities';
 import { ChevronLeft, ChevronRight, X, Sparkles, BookOpen, Target, Lightbulb, MessageCircle, Copy, Check } from 'lucide-react';
 import {
   AlertDialog,

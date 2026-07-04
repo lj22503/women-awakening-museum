@@ -1,30 +1,38 @@
 import { AnimatedCounter } from '@/components/AnimatedCounter';
 import { StaggerContainer, StaggerItem } from '@/components/StaggerContainer';
+import { allPersonalities, getAllWomen } from '@/data/allPersonalities';
+import { dailyCards } from '@/data/dailyCards';
+import { problems } from '@/data/problems';
+
+const totalWomen = getAllWomen().length;
+const mbtiTypes = allPersonalities.length;
+const totalCards = dailyCards.length;
+const totalProblems = problems.length;
 
 const stats = [
   {
-    value: 100,
-    suffix: '+',
+    value: totalWomen,
+    suffix: '',
     label: '女性榜样',
     description: '来自不同领域的杰出女性'
   },
   {
-    value: 16,
+    value: mbtiTypes,
     suffix: '',
     label: '种MBTI人格',
     description: '找到与你性格共鸣的类型'
   },
   {
-    value: 50,
-    suffix: '+',
-    label: '本著作解读',
-    description: '深入理解她们的智慧'
+    value: totalCards,
+    suffix: '',
+    label: '觉醒行动卡',
+    description: '可执行微习惯与觉醒素材'
   },
   {
-    value: 1000,
-    suffix: '+',
-    label: '觉醒行动卡',
-    description: '已领取的可执行微习惯'
+    value: totalProblems,
+    suffix: '',
+    label: '问题雷达',
+    description: '深度探索女性成长命题'
   }
 ];
 
