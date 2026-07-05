@@ -22,7 +22,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "《杨澜访谈录》主持人，用对话连接全球名人。",
         methodology: "用提问探索深度，用倾听建立连接。",
-        cognition: "多元文化，人文关怀。",
+        cognition: "多元文化的深度对话者。她认为提问不仅是获取信息，更是一种为他人搭建表达舞台的艺术。通过连接全球思想者，她致力于打破文化壁垒，让不同背景的女性在交流中找到共鸣与力量。",
         works: ["《一问一世界》", "《杨澜访谈录》"]
       },
       {
@@ -33,7 +33,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "两岸青年创客论坛嘉宾，用创意传播健康与养生。",
         methodology: "选赛道如同择偶，找价值观相同的伙伴。",
-        cognition: "用创意为传统品牌注入新活力。",
+        cognition: "用创意为传统品牌注入新活力。她将品牌视作价值观的载体，坚信跨界合作的本质是寻找精神同频的伙伴。在她的方法论中，好的商业创意既要有文化厚度，也要有传播的生命力。",
         works: []
       }
     ]
@@ -56,7 +56,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "仡佬族作家，关注西部小城的人情世相。",
         methodology: "用文字留住记忆，不让平凡人被遗忘。",
-        cognition: "关注个人成长，用行动传递价值。",
+        cognition: "关注个人成长，用行动传递价值。作为仡佬族作家，她深知边缘声音被忽视的疼痛。她用文字为西部小城的普通人立传，坚信每一个平凡生命的记忆，都构成了时代最真实的底色。",
         works: ["《守卫者长诗》", "《血液科医生》", "《暖》"]
       },
       {
@@ -67,7 +67,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "北京出生的刊物编辑，关注都市年轻人生活。",
         methodology: "让自己处于被激活的状态，探索有趣的事情。",
-        cognition: "用文字探索人生意义。",
+        cognition: "都市青年的敏锐观察者。她用文字探索人生意义，将城市生活中的疏离与渴望转化为文学追问。在她看来，创作的本质是不断激活自己的感知力，在看似无聊的日常中发现暗流涌动。",
         works: ["《猎物》", "《业余玩家》", "《午后两点半》"]
       }
     ]
@@ -90,7 +90,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "维新集团董事长，从东莞农村到涂料界探索者。",
         methodology: "用创新推动行业发展，坚持中国制造。",
-        cognition: "人生是一场美丽的修行。",
+        cognition: "从东莞农村到涂料行业的探索者，她将人生视为一场持续的修行——每一次从零开始的勇气都是对自我的超越。她坚信中国制造不仅关乎技术，更关乎创业者内心的韧性与格局。",
         works: ["《人生是一场美丽的修行》"]
       }
     ]
@@ -113,7 +113,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "从基层做起，主导华为财务体系改革。",
         methodology: "注重规则，用系统提升效率。",
-        cognition: "如果信念有颜色，那一定是中国红。",
+        cognition: "规则与韧性的双重代表。她以系统思维重塑华为财务体系，用理性构建秩序；在困境中，她将个人信念升华为集体精神的象征。她的认知核心在于：真正的力量来自对规则的敬畏与对使命的坚守。",
         works: []
       },
       {
@@ -124,7 +124,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "原子弹之母，推翻宇称守恒定律。",
         methodology: "用科学改变世界，注重效率。",
-        cognition: "用坚持实现目标。",
+        cognition: "用精确的实验推翻被广泛接受的物理定律——她以一丝不苟的科学方法证明了宇称不守恒，却拒绝让性别成为被评判的标准。她的认知核心在于：自然规律面前，唯一有效的语言是严谨的数据。",
         works: ["《β衰变》"]
       }
     ]
@@ -147,7 +147,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "从笨女孩到新闻界最有权势的女人。",
         methodology: "务实的管理风格，重视记者的现场报道能力。",
-        cognition: "活在当下，做好今天的报纸。",
+        cognition: "从自我怀疑中走出的新闻女王。她将报纸视为民主的基石，坚信新闻人的最高职责是让权力接受监督。当五角大楼文件风波席卷而来，她用行动证明：活在当下，不仅是做好今天的报纸，更是在关键时刻捍卫真相的勇气。",
         works: ["《个人历史》"]
       }
     ]
@@ -170,7 +170,7 @@ export const additionalPersonalitiesPart2: Personality[] = [
         image: "",
         introduction: "从演员到企业家，创办多家影视公司。",
         methodology: "说做就做，人生不怕从头再来。",
-        cognition: "自己的命运自己做主。",
+        cognition: "从演员到企业家，她的人生信条是'自己的命运自己做主'。在她看来，人生没有标准剧本——每一次从零开始的勇气，都是对宿命论最有力的反击。她用行动而非言语，诠释了女性可以既是艺术的创造者，也是商业的掌控者。",
         works: ["《人生不怕从头再来》"]
       }
     ]

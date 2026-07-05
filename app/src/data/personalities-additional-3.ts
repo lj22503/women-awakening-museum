@@ -22,7 +22,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "《南京大屠杀》作者，用文字揭露历史真相。",
         methodology: "用执着追求真相，用文字改变世界。",
-        cognition: "关注深层意义，记忆与遗忘。",
+        cognition: "记忆与遗忘的角力者。她以执着的历史考据揭露南京大屠杀的真相，坚信文明社会的根基在于对苦难记忆的诚实保存。她的认知核心在于：文字可以对抗遗忘，沉默是对受害者的二次伤害。",
         works: ["《南京大屠杀：被遗忘的二战浩劫》"]
       }
     ]
@@ -45,7 +45,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "女性主义写作代表，关注身体意识与欲望。",
         methodology: "用文字表达真实，一咬牙走了黄河。",
-        cognition: "一个人的战争就是自己嫁给自己。",
+        cognition: "女性主义书写的身体实践者。她将女性身体意识与欲望从禁忌中解放，用文字表达被时代吞没的真实声音。在她看来，'一个人的战争'不是孤独的挣扎，而是每个女性终将面对的内在叙事——与自己和解，是最艰难也最必要的修行。",
         works: ["《一个人的战争》", "《北流》", "《身体的雷霆》"]
       },
       {
@@ -56,7 +56,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "皇家地理学会首位女会员，70 岁仍骑马上摩洛哥。",
         methodology: "用行动探索世界，用实际记录人生。",
-        cognition: "山是有生命的，它在呼吸。",
+        cognition: "她用脚步丈量世界，用实际记录打破维多利亚时代对女性的束缚。作为皇家地理学会首位女会员，她70岁仍骑马上山——在她看来，山不仅是有生命的，更是女性突破社会期待、证明身体与意志边界的见证者。",
         works: ["《我渴望疾劲的风》"]
       }
     ]
@@ -79,7 +79,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "从大山里走到复旦，帮助上万名女性成长。",
         methodology: "用行动改变命运，注重实际。",
-        cognition: "无畏成长。",
+        cognition: "从大山走到复旦，她用行动证明底层的女孩也可以改变命运。她将个人突围的经验转化为可复制的方法论，帮助上万名女性在职场中找到自己的位置。她的核心认知是：无畏不是不害怕，而是明知恐惧依然向前——每一次微小的成长都在积累真正的自由。",
         works: ["《无畏成长：新职场女性成长 7 堂课》"]
       }
     ]
@@ -102,7 +102,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "从迪士尼童星转型为流行歌手。",
         methodology: "不想做乖乖女，想做自己。",
-        cognition: "拒绝束缚，追求自由。",
+        cognition: "拒绝被迪士尼公主的标签定义，她用一次次勇敢的转型宣告：女性不需要成为任何人期待的'乖乖女'。她的认知在于，真正的自由不是无序的放纵，而是拥有选择成为自己的权利——即便这种选择会招致非议。",
         works: ["《Miles to Go》"]
       }
     ]
@@ -125,7 +125,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "《隐藏人物》原型，用计算助力阿波罗登月。",
         methodology: "用理性拆解问题，用坚持实现目标。",
-        cognition: "用科学改变世界。",
+        cognition: "在计算机还是人名的时代，她用手算将美国宇航员送上月球。她相信数学是宇宙的语言，而性别和肤色不是理解这种语言的门槛。她的认知核心在于：精确的计算比任何偏见更有力量——用科学打破偏见，是最优雅的反击。",
         works: []
       },
       {
@@ -136,7 +136,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "前 Yahoo CEO，Google 早期员工。",
         methodology: "用数据驱动决策，注重效率。",
-        cognition: "用理性分析解决问题。",
+        cognition: "硅谷罕见的女性技术领袖。她坚信数据驱动的决策模式可以消除主观偏见，用工程思维解构复杂的商业问题。她的认知核心在于：在不确定的世界中，唯有严谨的分析才能让选择变得清晰。",
         works: ["《人工智能的未来》"]
       },
       {
@@ -147,7 +147,7 @@ export const additionalPersonalitiesPart3: Personality[] = [
         image: "",
         introduction: "《性别麻烦》作者，后现代女性主义代表。",
         methodology: "用理论挑战传统，用思辨探索边界。",
-        cognition: "性别是表演性的。",
+        cognition: "性别不是天生的事实，而是被反复表演的社会脚本——她的这一论断彻底颠覆了女性主义理论。她认为，当我们意识到性别规范是建构的产物，也就获得了颠覆它的可能。她的认知核心在于：理论的锋利不是炫技，而是为了给被边缘化的存在开辟生存空间。",
         works: ["《性别麻烦》", "《身体之重》"]
       }
     ]

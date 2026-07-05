@@ -160,6 +160,82 @@ const HALL_COLORS: Record<string, string> = {
   'new-generation': '#6B8E6B',
 };
 
+// 每个展厅的差异化视觉配置
+interface HallVisualConfig {
+  cardClass: string;
+  headerClass: string;
+  avatarClass: string;
+  contentClass: string;
+  inlineStyle?: React.CSSProperties;
+  headerInlineStyle?: React.CSSProperties;
+}
+
+function getHallVisualConfig(hallId: string, hallColor: string): HallVisualConfig {
+  switch (hallId) {
+    case 'system-builders':
+      return {
+        cardClass: 'bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden cursor-pointer hover:bg-white/10 hover:scale-[1.02] transition-all duration-300 border-l-2',
+        headerClass: 'h-48 flex items-end p-6 relative overflow-hidden',
+        avatarClass: 'absolute top-4 right-4 w-24 h-24 overflow-hidden border-2 border-white/30 bg-white/10',
+        contentClass: 'p-6 border-t border-white/5',
+        inlineStyle: { borderLeftColor: hallColor },
+        headerInlineStyle: {
+          background: `linear-gradient(135deg, ${hallColor}44 0%, ${hallColor}11 50%, transparent 100%)`,
+        },
+      };
+    case 'boundary-breakers':
+      return {
+        cardClass: 'bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden cursor-pointer hover:bg-white/10 hover:-rotate-1 transition-all duration-300 border border-dashed border-white/15',
+        headerClass: 'h-48 flex items-end p-6 relative overflow-hidden',
+        avatarClass: 'absolute top-4 right-4 w-24 h-24 overflow-hidden border-2 border-dashed border-white/40 bg-white/10 rotate-3 shadow-lg',
+        contentClass: 'p-6 border-t border-dashed border-white/10',
+        headerInlineStyle: {
+          background: `linear-gradient(135deg, ${hallColor}33 0%, ${hallColor}22 40%, #C9B03722 70%, transparent 100%)`,
+        },
+      };
+    case 'culture-observers':
+      return {
+        cardClass: 'bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:bg-white/10 hover:scale-[1.02] transition-all duration-300',
+        headerClass: 'h-48 flex items-end p-8 relative overflow-hidden',
+        avatarClass: 'absolute top-6 right-6 w-20 h-20 overflow-hidden ring-1 ring-offset-2 ring-offset-[#242422] ring-white/30 bg-white/10',
+        contentClass: 'px-8 pb-8 pt-4',
+        headerInlineStyle: {
+          background: `linear-gradient(to bottom, transparent 40%, ${hallColor}15 100%)`,
+        },
+      };
+    case 'action-inspirers':
+      return {
+        cardClass: 'bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden cursor-pointer hover:bg-white/10 hover:scale-[1.02] transition-all duration-300 border border-white/10',
+        headerClass: 'h-48 flex items-end p-6 pl-10 relative overflow-hidden',
+        avatarClass: 'absolute top-4 right-4 w-24 h-24 overflow-hidden ring-2 ring-offset-2 ring-offset-[#242422] ring-white/30 bg-white/10',
+        contentClass: 'p-6 pl-10 relative',
+        headerInlineStyle: {
+          background: `linear-gradient(135deg, ${hallColor}33 0%, ${hallColor}11 100%)`,
+        },
+      };
+    case 'new-generation':
+      return {
+        cardClass: 'bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:bg-white/15 hover:scale-[1.02] transition-all duration-300 border border-white/15',
+        headerClass: 'h-48 flex items-end p-6 relative overflow-hidden',
+        avatarClass: 'absolute top-4 right-4 w-24 h-24 overflow-hidden ring-2 ring-white/40 bg-white/10',
+        contentClass: 'p-6',
+        headerInlineStyle: {
+          background: `linear-gradient(135deg, #7C3AED44 0%, ${hallColor}33 50%, #06B6D444 100%)`,
+        },
+      };
+    default:
+      return {
+        cardClass: 'bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:bg-white/10 hover:scale-[1.02] transition-all duration-300',
+        headerClass: 'h-48 flex items-end p-6 relative overflow-hidden',
+        avatarClass: 'absolute top-4 right-4 w-24 h-24 overflow-hidden border-2 border-white/30 bg-white/10',
+        contentClass: 'p-6',
+        headerInlineStyle: {
+          background: `linear-gradient(135deg, ${hallColor}33 0%, ${hallColor}11 100%)`,
+        },
+      };
+  }
+}
+
 export default function ExhibitionHalls() {
   const [activeHall, setActiveHall] = useState(0);
   const [selectedWoman, setSelectedWoman] = useState<
@@ -238,23 +314,46 @@ export default function ExhibitionHalls() {
 
               {/* 人物卡片网格 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {exhibitionHalls[activeHall].women.map((woman, index) => (
+                {exhibitionHalls[activeHall].women.map((woman, index) => {
+                  const hall = exhibitionHalls[activeHall];
+                  const hallColor = HALL_COLORS[hall.id] || '#C9B037';
+                  const visual = getHallVisualConfig(hall.id, hallColor);
+
+                  return (
                   <motion.div
-                    key={`${exhibitionHalls[activeHall].id}-${woman.name}`}
+                    key={`${hall.id}-${woman.name}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.08 }}
                     onClick={() => setSelectedWoman(woman)}
-                    className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer hover:bg-white/10 hover:scale-[1.02] transition-all duration-300"
+                    className={visual.cardClass}
+                    style={{
+                      ...visual.inlineStyle,
+                      boxShadow: hall.id === 'new-generation'
+                        ? `0 0 24px ${hallColor}22, 0 0 6px ${hallColor}15`
+                        : undefined,
+                    }}
                   >
+                    {/* 时间轴装饰线（行动启发者） */}
+                    {hall.id === 'action-inspirers' && (
+                      <div className="absolute left-4 top-0 bottom-0 flex flex-col items-center">
+                        <div className="w-[3px] flex-1 bg-gradient-to-b from-white/30 to-white/5" />
+                      </div>
+                    )}
+
+                    {/* 模块化网格线（体系构建者） */}
+                    {hall.id === 'system-builders' && (
+                      <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute inset-4 border border-white/[0.03]" />
+                      </div>
+                    )}
+
                     {/* 头像区域 */}
                     <div
-                      className="h-48 flex items-end p-6 relative overflow-hidden"
-                      style={{
-                        background: `linear-gradient(135deg, ${HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037'}33 0%, ${HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037'}11 100%)`,
-                      }}
+                      className={visual.headerClass}
+                      style={visual.headerInlineStyle}
                     >
-                      <div className="absolute top-4 right-4 w-24 h-24 rounded-full overflow-hidden border-2 border-white/30 bg-white/10">
+                      <div className={visual.avatarClass}>
                         {woman.image ? (
                           <img
                             src={`/images/${woman.image.split('/').pop()}`}
@@ -268,7 +367,7 @@ export default function ExhibitionHalls() {
                                 parent.style.display = 'flex';
                                 parent.style.alignItems = 'center';
                                 parent.style.justifyContent = 'center';
-                                parent.style.backgroundColor = HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037';
+                                parent.style.backgroundColor = hallColor;
                                 const span = document.createElement('span');
                                 span.className = 'text-white font-display text-3xl';
                                 span.textContent = woman.name.charAt(0);
@@ -279,27 +378,29 @@ export default function ExhibitionHalls() {
                         ) : (
                           <div
                             className="w-full h-full flex items-center justify-center"
-                            style={{ backgroundColor: HALL_COLORS[exhibitionHalls[activeHall].id] || '#C9B037' }}
+                            style={{ backgroundColor: hallColor }}
                           >
                             <span className="text-white font-display text-3xl">{woman.name.charAt(0)}</span>
                           </div>
                         )}
                       </div>
                       <div className="text-white flex-1 pr-24">
-                        <h4 className="font-serif text-xl mb-1">{woman.name}</h4>
+                        <h4 className={`${hall.id === 'culture-observers' ? 'font-serif italic' : 'font-serif'} text-xl mb-1`}>
+                          {woman.name}
+                        </h4>
                         <p className="text-sm text-white/60">{woman.title}</p>
                       </div>
                     </div>
 
                     {/* 内容区域 */}
-                    <div className="p-6">
+                    <div className={visual.contentClass}>
                       {woman.work && (
                         <p className="text-white/40 text-xs mb-3 uppercase tracking-wider">
                           {woman.work}
                         </p>
                       )}
                       {woman.quote && (
-                        <p className="text-white/60 text-sm italic line-clamp-2 leading-relaxed">
+                        <p className={`${hall.id === 'culture-observers' ? 'font-serif italic text-white/70' : 'text-white/60'} text-sm line-clamp-2 leading-relaxed`}>
                           "{woman.quote}"
                         </p>
                       )}
@@ -310,7 +411,8 @@ export default function ExhibitionHalls() {
                       )}
                     </div>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
             </motion.div>
           </AnimatePresence>
